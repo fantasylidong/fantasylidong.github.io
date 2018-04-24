@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MFC C++ 自动回复," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="对socket编程我还是挺熟悉的，毕竟用过python写的shadowsocks，不过那时候时候没看过这个程序的源码，最近作业是做一个最多支持5线程的迭代服务器，最好能够支持智能回复，看了一下智能回复应该能用图灵机器人的API搞定，画出来的程序流程都大概如下所示：   第一章：服务器端界面 启动服务器按钮对应代码123456789101112131415void Csocket_serverDl">
+<meta name="keywords" content="MFC C++ 自动回复">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络作业(四)">
+<meta property="og:url" content="http://lidongspace.cn/2018/04/24/计算机网络作业-四/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="对socket编程我还是挺熟悉的，毕竟用过python写的shadowsocks，不过那时候时候没看过这个程序的源码，最近作业是做一个最多支持5线程的迭代服务器，最好能够支持智能回复，看了一下智能回复应该能用图灵机器人的API搞定，画出来的程序流程都大概如下所示：   第一章：服务器端界面 启动服务器按钮对应代码123456789101112131415void Csocket_serverDl">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/3258349790.jpg">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/1424166420.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/1243757725.gif">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/964509500.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/1844337240.png">
+<meta property="og:updated_time" content="2018-04-24T15:49:55.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络作业(四)">
+<meta name="twitter:description" content="对socket编程我还是挺熟悉的，毕竟用过python写的shadowsocks，不过那时候时候没看过这个程序的源码，最近作业是做一个最多支持5线程的迭代服务器，最好能够支持智能回复，看了一下智能回复应该能用图灵机器人的API搞定，画出来的程序流程都大概如下所示：   第一章：服务器端界面 启动服务器按钮对应代码123456789101112131415void Csocket_serverDl">
+<meta name="twitter:image" content="https://www.lidongspace.cn/usr/uploads/2017/10/3258349790.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lidongspace.cn/2018/04/24/计算机网络作业-四/"/>
+
+
+
+
+
+  <title>计算机网络作业(四) | Lee's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">这是Lee的个人博客，记录一些技术发展和生活记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lidongspace.cn/2018/04/24/计算机网络作业-四/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="东东东东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络作业(四)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T23:39:00+08:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>对socket编程我还是挺熟悉的，毕竟用过python写的shadowsocks，不过那时候时候没看过这个程序的源码，最近作业是做一个最多支持5线程的迭代服务器，最好能够支持智能回复，看了一下智能回复应该能用图灵机器人的API搞定，画出来的程序流程都大概如下所示：</p>
+</blockquote>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/10/3258349790.jpg" alt="IMG_20171019_210925.jpg"></p>
+<h1 id="第一章："><a href="#第一章：" class="headerlink" title="第一章："></a>第一章：</h1><h1 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h1><h2 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h2><p><img src="https://www.lidongspace.cn/usr/uploads/2017/10/1424166420.png" alt="界面.png"></p>
+<p><strong>启动服务器按钮对应代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Csocket_serverDlg::OnBnClickedOk()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> 在此添加控件通知处理程序代码</span></span><br><span class="line">	CDialogEx::OnOK();</span><br><span class="line">	<span class="keyword">char</span> *chs = m_edit_port.GetBuffer(<span class="number">0</span>);</span><br><span class="line">	UpdateData(<span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">char</span> *a[] = &#123; <span class="string">"main.exe"</span>,chs &#125;;</span><br><span class="line">	<span class="keyword">if</span> (m_edit_port)</span><br><span class="line">	&#123;</span><br><span class="line">		AfxMessageBox(<span class="string">"服务器已经开始运行"</span>);</span><br><span class="line">		main(<span class="number">2</span>,a);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		AfxMessageBox(<span class="string">"请输入端口号"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###头文件</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;io.h&gt;
+#include &lt;process.h&gt;
+#include &lt;winsock2.h&gt;
+#include &lt;windows.h&gt;
+#include&lt;ws2tcpip.h&gt;
+#include &lt;iostream&gt;
+using namespace std;
+#pragma comment(lib, &quot;ws2_32.lib&quot;)
+#define BUF_SIZE 5000
+#define CO_THREAD_NUM 5
+</code></pre><h3 id="主要代码"><a href="#主要代码" class="headerlink" title="主要代码"></a>主要代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">error_handling</span><span class="params">(<span class="keyword">char</span> *message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	AfxMessageBox(message);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WorkThread</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SOCKET sockListen = (SOCKET)lpParam;</span><br><span class="line">	SOCKET sockSvr;</span><br><span class="line">	fd_set readSet;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line">	timeval tv;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">5000</span>];</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		sockSvr = accept(sockListen, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">if</span> (sockSvr == INVALID_SOCKET) &#123;</span><br><span class="line">			AfxMessageBox(<span class="string">"accept: %d "</span>, WSAGetLastError());</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			FD_ZERO(&amp;readSet);</span><br><span class="line">			FD_SET(sockSvr, &amp;readSet);</span><br><span class="line">			tv.tv_sec = <span class="number">5</span>;</span><br><span class="line">			tv.tv_usec = <span class="number">0</span>;</span><br><span class="line">			ret = select(<span class="number">0</span>, &amp;readSet, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;tv);</span><br><span class="line">			<span class="keyword">if</span> (ret == SOCKET_ERROR || ret == <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				AfxMessageBox(<span class="string">"Socket %d:Sekect error &#123;%d&#125; or Timeout!\n"</span>, sockSvr, WSAGetLastError());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (FD_ISSET(sockSvr, &amp;readSet)) &#123;</span><br><span class="line">				<span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">500</span>);</span><br><span class="line">				ret = recv(sockSvr, buf, <span class="number">5000</span>, <span class="number">0</span>);</span><br><span class="line">				<span class="comment">/*if (ret == SOCKET_ERROR || ret == 0) &#123;</span></span><br><span class="line"><span class="comment">					AfxMessageBox("recv error &#123;%d&#125; or Peer closed!\n", WSAGetLastError());</span></span><br><span class="line"><span class="comment">					break;</span></span><br><span class="line"><span class="comment">				&#125;*/</span></span><br><span class="line">				ret = send(sockSvr, buf, <span class="built_in">strlen</span>(buf), <span class="number">0</span>);</span><br><span class="line">				<span class="keyword">if</span> (ret == SOCKET_ERROR)</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		closesocket(sockSvr);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	WSADATA  Ws;</span><br><span class="line">	<span class="keyword">int</span> serv_sock;<span class="comment">//服务器端socket</span></span><br><span class="line">	<span class="keyword">if</span> (WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;Ws) != <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		error_handling(<span class="string">"WSAStartup() error!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	sockaddr_in serv_addr;</span><br><span class="line">	<span class="comment">//	socklen_t clnt_addr_size;</span></span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">2</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Usage : %s &lt;port&gt;\n"</span>, argv[<span class="number">0</span>]);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	serv_sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	BOOL bReuseAddr = <span class="literal">true</span>;</span><br><span class="line">	setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, (<span class="keyword">char</span> *)&amp;bReuseAddr, <span class="keyword">sizeof</span>(bReuseAddr));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (serv_sock == <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		error_handling(<span class="string">"socket() error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;serv_addr, <span class="number">0</span>, <span class="keyword">sizeof</span>(serv_addr));<span class="comment">//serv_addr全部置零，清楚变量值</span></span><br><span class="line">	serv_addr.sin_family = AF_INET;<span class="comment">//表示使用ip地址</span></span><br><span class="line">	serv_addr.sin_addr.s_addr = INADDR_ANY;<span class="comment">//INADDR_ANY表示我不在意Local IP，由系統自行決定</span></span><br><span class="line">												  <span class="comment">//若要指定IP，則使用inet_addr，例如：name.sin_addr.s_addr = inet_addr(“140.115.65.1”);</span></span><br><span class="line">												  <span class="comment">//將IP字串轉為網路位元排列，如需要反轉換，有inet_ntoa函式可用</span></span><br><span class="line">	serv_addr.sin_port = htons(atoi(argv[<span class="number">1</span>]));<span class="comment">//绑定端口</span></span><br><span class="line">	<span class="keyword">if</span> (bind(serv_sock, (sockaddr*)&amp;serv_addr, <span class="keyword">sizeof</span>(serv_addr)) == SOCKET_ERROR)<span class="comment">//绑定</span></span><br><span class="line">	&#123;</span><br><span class="line">		error_handling(<span class="string">"bind() error"</span>);	</span><br><span class="line">		WSACleanup();</span><br><span class="line">		closesocket(serv_sock); </span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (listen(serv_sock, <span class="number">5</span>) == SOCKET_ERROR)<span class="comment">//对serv_sock进行监听，5表示允许5个用户请求</span></span><br><span class="line">	&#123;</span><br><span class="line">		error_handling(<span class="string">"listen() error"</span>);	</span><br><span class="line">		WSACleanup();</span><br><span class="line">		closesocket(serv_sock);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; CO_THREAD_NUM; i++)</span><br><span class="line">		_beginthread(WorkThread, <span class="number">0</span>, (LPVOID)serv_sock);</span><br><span class="line">	<span class="comment">//	clnt_addr_size = sizeof(clnt_addr);</span></span><br><span class="line">	<span class="comment">//int nSize = sizeof(SOCKADDR);</span></span><br><span class="line">	<span class="comment">/*char buffer[BUF_SIZE] = &#123; 0 &#125;;  //缓冲区</span></span><br><span class="line"><span class="comment">	for (int i = 0; i &lt; 5; i++) &#123;*/</span></span><br><span class="line">	<span class="comment">//clnt_sock = accept(serv_sock, (sockaddr*)&amp;clnt_addr, &amp;clnt_addr_size);//serv_sock接受</span></span><br><span class="line">	<span class="comment">//int strLen = recv(clnt_sock, buffer, BUF_SIZE, 0);  //接收客户端发来的数据</span></span><br><span class="line">	<span class="comment">//send(clnt_sock, message, sizeof(message), 0);  //将数据原样返回</span></span><br><span class="line">	<span class="comment">//closesocket(clnt_sock);  //关闭套接字</span></span><br><span class="line">	<span class="comment">//memset(buffer, 0, BUF_SIZE);  //重置缓冲区</span></span><br><span class="line">	<span class="comment">//&#125;</span></span><br><span class="line">	<span class="comment">/*if (clnt_sock == INVALID_SOCKET)</span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">	error_handling("accept() error");</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	send(clnt_sock, message, sizeof(message), 0);</span></span><br><span class="line"><span class="comment">	closesocket(clnt_sock);*/</span></span><br><span class="line">	Sleep(INFINITE);</span><br><span class="line"></span><br><span class="line">	closesocket(serv_sock);</span><br><span class="line">	WSACleanup();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="控制台客户端（已实现）"><a href="#控制台客户端（已实现）" class="headerlink" title="控制台客户端（已实现）"></a>控制台客户端（已实现）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// socket_test_cilent.cpp: 定义控制台应用程序的入口点。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;io.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;process.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ws2tcpip.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"ws2_32.lib"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Ws2tcpip.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUF_SIZE 5000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SOCKET sock;</span><br><span class="line">	<span class="keyword">char</span> bufSend[BUF_SIZE];</span><br><span class="line">	<span class="keyword">char</span> bufRecv[BUF_SIZE];</span><br><span class="line">	sockaddr_in sockAddr;</span><br><span class="line">	<span class="keyword">char</span> message[<span class="number">30</span>];</span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Usage : %s &lt;IP&gt; &lt;port&gt;\n "</span>, argv[<span class="number">0</span>]);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//初始化DLL</span></span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	<span class="keyword">if</span> (WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>)</span><br><span class="line">		ErrorHandling(<span class="string">"WSAStartup() error!"</span>);</span><br><span class="line">	<span class="comment">//向服务器发起请求</span></span><br><span class="line"></span><br><span class="line">	sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (sock == INVALID_SOCKET)</span><br><span class="line">	&#123;</span><br><span class="line">		WSACleanup();</span><br><span class="line">		ErrorHandling(<span class="string">"socket() error"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="keyword">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">	sockAddr.sin_family = PF_INET;</span><br><span class="line">	<span class="comment">//	sockAddr.sin_addr.s_addr = inet_addr(argv[1]);</span></span><br><span class="line"></span><br><span class="line">	InetPton(AF_INET, argv[<span class="number">1</span>], &amp;sockAddr.sin_addr);</span><br><span class="line">	sockAddr.sin_port = htons(atoi(argv[<span class="number">2</span>]));</span><br><span class="line">	<span class="keyword">if</span> (connect(sock, (SOCKADDR*)&amp;sockAddr, <span class="keyword">sizeof</span>(SOCKADDR)) == SOCKET_ERROR)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sock != INVALID_SOCKET)</span><br><span class="line">			closesocket(sock);</span><br><span class="line">		WSACleanup();</span><br><span class="line">		ErrorHandling(<span class="string">"connect() error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"成功连接"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//获取用户输入的字符串并发送给服务器</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入要向服务器发送的信息：\n"</span>);</span><br><span class="line">	fd_set readSet;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span></span><br><span class="line">	<span class="keyword">int</span> ret, len;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">memset</span>(bufSend, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">		gets_s(bufSend);</span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">strcmp</span>(bufSend, <span class="string">"quit\n"</span>) || !<span class="built_in">strcmp</span>(bufSend, <span class="string">"QUIT\n"</span>) || !<span class="built_in">strcmp</span>(bufSend, <span class="string">"Quit\n"</span>))</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			WSACleanup();  <span class="comment">//终止使用 DLL</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"你已经退出"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		len = <span class="built_in">strlen</span>(bufSend);</span><br><span class="line">		<span class="keyword">if</span> (len &gt; <span class="number">997</span>)</span><br><span class="line">			len = <span class="number">997</span>;</span><br><span class="line">		bufSend[len] = <span class="string">'\r'</span>;</span><br><span class="line">		bufSend[len + <span class="number">1</span>] = <span class="string">'\n'</span>;</span><br><span class="line">		bufSend[len + <span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">		ret = send(sock, bufSend, <span class="built_in">strlen</span>(bufSend), <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"send:%d\n"</span>, WSAGetLastError());</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		FD_ZERO(&amp;readSet);</span><br><span class="line">		FD_SET(sock, &amp;readSet);</span><br><span class="line">		tv.tv_sec = <span class="number">3</span>;</span><br><span class="line">		tv.tv_usec = <span class="number">0</span>;</span><br><span class="line">		ret = select(<span class="number">0</span>, &amp;readSet, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"select: %d"</span>, WSAGetLastError());</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (ret == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"TimeOut,No Response From Server\n"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(sock, &amp;readSet)) &#123;</span><br><span class="line">			<span class="built_in">memset</span>(bufRecv, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">			ret = recv(sock, bufRecv, <span class="number">1000</span>, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"recv: %d\n"</span>, WSAGetLastError());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, bufRecv);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (sock != INVALID_SOCKET)</span><br><span class="line">		&#123;</span><br><span class="line">			closesocket(sock);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">		WSACleanup();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Stopped.\n"</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">fputs</span>(message,<span class="built_in">stderr</span>);</span><br><span class="line">	fputc(<span class="string">'\n'</span>, <span class="built_in">stderr</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试gif"><a href="#测试gif" class="headerlink" title="测试gif"></a>测试gif</h3><p><img src="https://www.lidongspace.cn/usr/uploads/2017/10/1243757725.gif" alt="服务器端测试.gif"></p>
+<h2 id="调用图灵机器人（暂未实现）"><a href="#调用图灵机器人（暂未实现）" class="headerlink" title="调用图灵机器人（暂未实现）"></a>调用图灵机器人（暂未实现）</h2><blockquote>
+<p>能力有限，不知道怎么整合MFC程序和这个winhttp的程序整合</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winhttp.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">"winhttp.lib"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TULING_URL  <span class="meta-string">L"www.tuling123.com/openapi/api?key=这里换成你自己从图灵申请的API啦&amp;info=%s"</span></span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">wchar_t</span> String[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//编码转换</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">UnicodeToANSI</span><span class="params">(<span class="keyword">const</span> <span class="keyword">wchar_t</span> *str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">char</span> result[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">int</span> len = WideCharToMultiByte(CP_ACP, <span class="number">0</span>, str, <span class="number">-1</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    WideCharToMultiByte(CP_ACP, <span class="number">0</span>, str, <span class="number">-1</span>, result, len, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    result[len] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">wchar_t</span> *UTF8ToUnicode(<span class="keyword">const</span> <span class="keyword">char</span> *str)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">wchar_t</span> result[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">int</span> len = MultiByteToWideChar(CP_UTF8, <span class="number">0</span>, str, <span class="number">-1</span>, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    MultiByteToWideChar(CP_UTF8, <span class="number">0</span>, str, <span class="number">-1</span>, result, len);</span><br><span class="line">    result[len] = L'\<span class="number">0'</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">wchar_t</span> *ANSIToUnicode(<span class="keyword">const</span> <span class="keyword">char</span>* str)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> textlen;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">wchar_t</span> result[<span class="number">1024</span>];</span><br><span class="line">    textlen = MultiByteToWideChar(CP_ACP, <span class="number">0</span>, str, <span class="number">-1</span>, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">memset</span>(result, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">char</span>) * (textlen + <span class="number">1</span>));</span><br><span class="line">    MultiByteToWideChar(CP_ACP, <span class="number">0</span>, str, <span class="number">-1</span>, (LPWSTR)result, textlen);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetHttpPage</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DWORD dwSize = <span class="number">0</span>;</span><br><span class="line">    DWORD dwDownloaded = <span class="number">0</span>;</span><br><span class="line">    LPSTR pszOutBuffer = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">static</span> HINTERNET hSession = WinHttpOpen(<span class="string">L"A Tuling API Example Program/1.0"</span>, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">static</span> HINTERNET hConnect = <span class="literal">NULL</span>, hRequest = <span class="literal">NULL</span>;</span><br><span class="line">    BOOL  bResults = FALSE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从控制台读出一行文字，注意读出来的内容是ANSI编码的，我们需要转换成 Unicode编码</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">char</span> uin[<span class="number">1024</span>]; gets_s(uin);</span><br><span class="line">    wsprintf(String, TULING_URL, ANSIToUnicode(uin));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//建立一个http的连接会话，给出主机名就行，可以域名，也可以是IP地址，不需要http;前缀</span></span><br><span class="line">    <span class="keyword">if</span> (hSession)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!hConnect)</span><br><span class="line">            hConnect = WinHttpConnect(hSession, <span class="string">L"www.tuling123.com"</span>, INTERNET_DEFAULT_HTTP_PORT, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建一个HTTP请求句柄</span></span><br><span class="line">    <span class="keyword">if</span> (hConnect)</span><br><span class="line">        hRequest = WinHttpOpenRequest(hConnect, <span class="string">L"GET"</span>, String, <span class="literal">NULL</span>, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_ESCAPE_PERCENT | WINHTTP_FLAG_REFRESH);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//发送请求数据</span></span><br><span class="line">    <span class="keyword">if</span> (hRequest)</span><br><span class="line">        bResults = WinHttpSendRequest(hRequest, WINHTTP_NO_ADDITIONAL_HEADERS, <span class="number">0</span>, WINHTTP_NO_REQUEST_DATA, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求结束，接收数据</span></span><br><span class="line">    <span class="keyword">if</span> (bResults)</span><br><span class="line">        bResults = WinHttpReceiveResponse(hRequest, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Error %d has occurred.\n"</span>, GetLastError());</span><br><span class="line">    <span class="comment">//如果返回值为false，可以使用getlasterror来得到错误信息，下同</span></span><br><span class="line">    <span class="comment">//返回值的详细信息可以看微软网页，或者看这里翻译好的中文接口说明</span></span><br><span class="line">    <span class="comment">//http://blog.csdn.net/fengsh998/article/details/8201591</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 内部使用的一个循环来确保能接受到所有数据</span></span><br><span class="line">    <span class="keyword">if</span> (bResults)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//检查是否还有数据需要接收</span></span><br><span class="line">            dwSize = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (!WinHttpQueryDataAvailable(hRequest, &amp;dwSize))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"Error %u in WinHttpQueryDataAvailable.\n"</span>, GetLastError());</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!dwSize)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//为缓冲分配内存并读取</span></span><br><span class="line">            pszOutBuffer = <span class="keyword">new</span> <span class="keyword">char</span>[dwSize + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!pszOutBuffer)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"Out of memory\n"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ZeroMemory(pszOutBuffer, dwSize + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!WinHttpReadData(hRequest, (LPVOID)pszOutBuffer, dwSize, &amp;dwDownloaded))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"Error %u in WinHttpReadData.\n"</span>, GetLastError());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//图灵api返回来的内容使用的是UTF-8编码，我们需要把它转换回ANSI才能在控制台显示</span></span><br><span class="line">                <span class="comment">//printf("return:%s\n", UnicodeToANSI(UTF8ToUnicode(pszOutBuffer)) );</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//因为没有使用JSON库，所以我暴力拆了这字符串。</span></span><br><span class="line">                pszOutBuffer[<span class="built_in">strlen</span>(pszOutBuffer)<span class="number">-2</span>] = <span class="string">'\0'</span>;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"小灵:%s\n\n"</span>, UnicodeToANSI(UTF8ToUnicode(pszOutBuffer)) + <span class="number">23</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">delete</span>[] pszOutBuffer; </span><br><span class="line">            <span class="keyword">if</span> (!dwDownloaded)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">while</span> (dwSize &gt; <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//收尾，关闭被打开的句柄</span></span><br><span class="line">    <span class="keyword">if</span> (hRequest) WinHttpCloseHandle(hRequest);</span><br><span class="line">    <span class="keyword">if</span> (hConnect) WinHttpCloseHandle(hConnect);</span><br><span class="line">    <span class="keyword">if</span> (hSession) WinHttpCloseHandle(hSession);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    system(<span class="string">"color F0"</span>);</span><br><span class="line">    system(<span class="string">"title 会聊天的图灵机器人 ●﹏●"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n  我是小灵，快来和我聊天吧! ●▽●\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span>&#123; <span class="built_in">printf</span>(<span class="string">"我："</span>); &#125; <span class="keyword">while</span> (GetHttpPage());</span><br><span class="line"></span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="客户端带界面版本（有问题，未调试）"><a href="#客户端带界面版本（有问题，未调试）" class="headerlink" title="客户端带界面版本（有问题，未调试）"></a>客户端带界面版本（有问题，未调试）</h2><p><img src="https://www.lidongspace.cn/usr/uploads/2017/10/964509500.png" alt="客户端界面.png"><br><strong>发送按钮对应的实现代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Csocket_clientDlg::OnBnClickedButton2()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> 在此添加控件通知处理程序代码</span></span><br><span class="line">	UpdateData(<span class="literal">true</span>);</span><br><span class="line">	<span class="keyword">char</span> *ip = m_edit_servaddr.GetBuffer(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">char</span> *port = m_edit_servport.GetBuffer(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">char</span> *argv[] = &#123; <span class="string">"main.exe"</span>,ip,port &#125;;</span><br><span class="line">	CString str;</span><br><span class="line">	m_chatedit.GetWindowTextA(str);</span><br><span class="line">	<span class="built_in">string</span> str1 = str.GetBuffer(<span class="number">0</span>);</span><br><span class="line">	strcpy_s(bufSend, str1.c_str());</span><br><span class="line">	UpdateData(<span class="literal">false</span>);</span><br><span class="line">	main(<span class="number">3</span>, argv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="主要代码-1"><a href="#主要代码-1" class="headerlink" title="主要代码"></a>主要代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Csocket_clientDlg mfc;</span><br><span class="line">	SOCKET sock;</span><br><span class="line">	sockaddr_in sockAddr;</span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//printf("Usage : %s &lt;IP&gt; &lt;port&gt;\n ", argv[0]);</span></span><br><span class="line">		AfxMessageBox(<span class="string">"Usage : main.exe &lt;IP&gt; &lt;port&gt;\n "</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//初始化DLL</span></span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	<span class="keyword">if</span> (WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>)</span><br><span class="line">		ErrorHandling(<span class="string">"WSAStartup() error!"</span>);</span><br><span class="line">	<span class="comment">//向服务器发起请求</span></span><br><span class="line"></span><br><span class="line">	sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (sock == INVALID_SOCKET)</span><br><span class="line">	&#123;</span><br><span class="line">		WSACleanup();</span><br><span class="line">		ErrorHandling(<span class="string">"socket() error"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="keyword">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">	sockAddr.sin_family = PF_INET;</span><br><span class="line">	<span class="comment">//	sockAddr.sin_addr.s_addr = inet_addr(argv[1]);</span></span><br><span class="line"></span><br><span class="line">	InetPton(AF_INET, argv[<span class="number">1</span>], &amp;sockAddr.sin_addr);</span><br><span class="line">	sockAddr.sin_port = htons(atoi(argv[<span class="number">2</span>]));</span><br><span class="line">	<span class="keyword">if</span> (connect(sock, (SOCKADDR*)&amp;sockAddr, <span class="keyword">sizeof</span>(SOCKADDR)) == SOCKET_ERROR)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sock != INVALID_SOCKET)</span><br><span class="line">			closesocket(sock);</span><br><span class="line">		WSACleanup();</span><br><span class="line">		ErrorHandling(<span class="string">"connect() error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//printf("成功连接");</span></span><br><span class="line">		AfxMessageBox(<span class="string">"成功连接"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	fd_set readSet;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span></span><br><span class="line">	<span class="keyword">int</span> ret, len;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">strcmp</span>(bufSend, <span class="string">"quit\n"</span>) || !<span class="built_in">strcmp</span>(bufSend, <span class="string">"QUIT\n"</span>) || !<span class="built_in">strcmp</span>(bufSend, <span class="string">"Quit\n"</span>))</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			WSACleanup();  <span class="comment">//终止使用 DLL</span></span><br><span class="line">			AfxMessageBox(<span class="string">"你已经退出"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		len = <span class="built_in">strlen</span>(bufSend);</span><br><span class="line">		<span class="keyword">if</span> (len &gt; <span class="number">997</span>)</span><br><span class="line">			len = <span class="number">997</span>;</span><br><span class="line">		bufSend[len] = <span class="string">'\r'</span>;</span><br><span class="line">		bufSend[len + <span class="number">1</span>] = <span class="string">'\n'</span>;</span><br><span class="line">		bufSend[len + <span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">		ret = send(sock, bufSend, <span class="built_in">strlen</span>(bufSend), <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">			AfxMessageBox(<span class="string">"send:%d\n"</span>, WSAGetLastError());</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		FD_ZERO(&amp;readSet);</span><br><span class="line">		FD_SET(sock, &amp;readSet);</span><br><span class="line">		tv.tv_sec = <span class="number">3</span>;</span><br><span class="line">		tv.tv_usec = <span class="number">0</span>;</span><br><span class="line">		ret = select(<span class="number">0</span>, &amp;readSet, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">			AfxMessageBox(<span class="string">"select: %d"</span>, WSAGetLastError());</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (ret == <span class="number">0</span>) &#123;</span><br><span class="line">			AfxMessageBox(<span class="string">"TimeOut,No Response From Server\n"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (FD_ISSET(sock, &amp;readSet)) &#123;</span><br><span class="line">			<span class="built_in">memset</span>(bufRecv, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">			ret = recv(sock, bufRecv, <span class="number">1000</span>, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">if</span> (ret == SOCKET_ERROR) &#123;</span><br><span class="line">				AfxMessageBox(<span class="string">"recv: %d\n"</span>, WSAGetLastError());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				mfc.m_chatlog.SetSel(<span class="number">-1</span>, <span class="number">-1</span>);</span><br><span class="line">				mfc.m_chatlog.ReplaceSel((LPCTSTR)bufRecv);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (sock != INVALID_SOCKET)</span><br><span class="line">		&#123;</span><br><span class="line">			closesocket(sock);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	WSACleanup();</span><br><span class="line">	AfxMessageBox(<span class="string">"Stopped.\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	AfxMessageBox(message);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><p>stdafx.h<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"ws2_32.lib"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Ws2tcpip.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span>;</span><br><span class="line"><span class="keyword">extern</span> SOCKET sock;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUF_SIZE 5000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">extern</span> 	<span class="keyword">char</span> bufSend[BUF_SIZE];</span><br><span class="line"><span class="keyword">extern</span>  <span class="keyword">char</span> bufRecv[BUF_SIZE];</span><br><span class="line"><span class="keyword">extern</span> sockaddr_in sockAddr;</span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> count;</span><br></pre></td></tr></table></figure></p>
+<p>stdafx.cpp<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SOCKET sock;</span><br><span class="line"><span class="keyword">char</span> bufSend[BUF_SIZE] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"><span class="keyword">char</span> bufRecv[BUF_SIZE] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">sockaddr_in sockAddr;</span><br><span class="line"><span class="keyword">int</span> count=<span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
+<h1 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h1><h2 id="客户端界面"><a href="#客户端界面" class="headerlink" title="客户端界面"></a>客户端界面</h2><p><img src="https://www.lidongspace.cn/usr/uploads/2017/10/1844337240.png" alt="第二章界面.png"><br><strong>连接按钮对应代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *ip = m_addr.GetBuffer(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">char</span> *port = m_port.GetBuffer(<span class="number">0</span>);</span><br><span class="line">UpdateData(<span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">char</span> *argv[] = &#123; <span class="string">"main.exe"</span>,ip,port &#125;;</span><br><span class="line">	main(<span class="number">3</span>, argv);</span><br></pre></td></tr></table></figure></p>
+<h2 id="主程序代码"><a href="#主程序代码" class="headerlink" title="主程序代码"></a>主程序代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	CTCPsocketDlg mfc;</span><br><span class="line">	SOCKET sock;</span><br><span class="line">	sockaddr_in sockAddr;</span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//printf("Usage : %s &lt;IP&gt; &lt;port&gt;\n ", argv[0]);</span></span><br><span class="line">		AfxMessageBox(<span class="string">"Usage : main.exe &lt;IP&gt; &lt;port&gt;\n "</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//初始化DLL</span></span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	<span class="keyword">if</span> (WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>)</span><br><span class="line">		ErrorHandling(<span class="string">"WSAStartup() error!"</span>);</span><br><span class="line">	<span class="comment">//向服务器发起请求</span></span><br><span class="line">	<span class="keyword">char</span> message[<span class="number">30</span>];</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">strlen</span> = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> idx = <span class="number">0</span>, readlen = <span class="number">0</span>;</span><br><span class="line">	sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (sock == INVALID_SOCKET)</span><br><span class="line">	&#123;</span><br><span class="line">		WSACleanup();</span><br><span class="line">		ErrorHandling(<span class="string">"socket() error"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="keyword">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">	sockAddr.sin_family = PF_INET;</span><br><span class="line"><span class="comment">//	sockAddr.sin_addr.s_addr = inet_addr(argv[1]);</span></span><br><span class="line"></span><br><span class="line">	InetPton(AF_INET, argv[<span class="number">1</span>], &amp;sockAddr.sin_addr);</span><br><span class="line">	sockAddr.sin_port = htons(atoi(argv[<span class="number">2</span>]));</span><br><span class="line">	<span class="keyword">if</span> (connect(sock, (SOCKADDR*)&amp;sockAddr, <span class="keyword">sizeof</span>(SOCKADDR)) == SOCKET_ERROR)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/*if (sock != INVALID_SOCKET)</span></span><br><span class="line"><span class="comment">			closesocket(sock);</span></span><br><span class="line"><span class="comment">		WSACleanup();*/</span></span><br><span class="line">		ErrorHandling(<span class="string">"connect() error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/*else</span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">		//printf("成功连接");</span></span><br><span class="line"><span class="comment">		AfxMessageBox("成功连接");</span></span><br><span class="line"><span class="comment">	&#125;*/</span></span><br><span class="line">	<span class="keyword">while</span> (readlen = recv(sock, &amp;message[idx++], <span class="number">1</span>, <span class="number">0</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (readlen == <span class="number">-1</span>)</span><br><span class="line">			ErrorHandling(<span class="string">"read() error!"</span>);</span><br><span class="line">			<span class="built_in">strlen</span>+= readlen;</span><br><span class="line">	&#125;</span><br><span class="line">	mfc.m_mess = message;</span><br><span class="line">	mfc.m_read_count = <span class="built_in">strlen</span>;</span><br><span class="line">	closesocket(sock);</span><br><span class="line">	WSACleanup();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="keyword">char</span>* message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	AfxMessageBox(message);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="35页第6题"><a href="#35页第6题" class="headerlink" title="35页第6题"></a>35页第6题</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">将客户端内的</span><br><span class="line"><span class="keyword">while</span> (readlen = recv(sock, &amp;message[idx++], <span class="number">1</span>, <span class="number">0</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (readlen == <span class="number">-1</span>)</span><br><span class="line">			ErrorHandling(<span class="string">"read() error!"</span>);</span><br><span class="line">			<span class="built_in">strlen</span>+= readlen;</span><br><span class="line">	&#125;</span><br><span class="line">改为</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3000</span>:i++)</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"write Busy"</span>);</span><br><span class="line"><span class="keyword">while</span> (readlen = recv(sock, &amp;message[idx++], <span class="built_in">strlen</span>(message), <span class="number">0</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (readlen == <span class="number">-1</span>)</span><br><span class="line">			ErrorHandling(<span class="string">"read() error!"</span>);</span><br><span class="line">			<span class="built_in">strlen</span>+= readlen;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">将服务器端内的</span><br><span class="line">	send(sock,message,<span class="built_in">strlen</span>(message),<span class="number">0</span>);</span><br><span class="line">	改为</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">strlen</span>(message)&gt;<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">strlen</span>(message);i++)</span><br><span class="line">	write(sock,message,<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"write() error!"</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>   我再也不想用mfc工程写GUI界面了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MFC-C-自动回复/" rel="tag"># MFC C++ 自动回复</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/mfc工程控件中调用main（int-argc-char-argv-函数/" rel="next" title="mfc工程控件中调用main（int argc,char *argv[])函数">
+                <i class="fa fa-chevron-left"></i> mfc工程控件中调用main（int argc,char *argv[])函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/24/weka的ID3-source-code/" rel="prev" title="weka的ID3 source code">
+                weka的ID3 source code <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">东东东东</p>
+              <p class="site-description motion-element" itemprop="description">爱生活，所以爱blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章："><span class="nav-number">1.</span> <span class="nav-text">第一章：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务器端"><span class="nav-number">2.</span> <span class="nav-text">服务器端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#界面"><span class="nav-number">2.1.</span> <span class="nav-text">界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要代码"><span class="nav-number">2.1.1.</span> <span class="nav-text">主要代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#客户端"><span class="nav-number">3.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制台客户端（已实现）"><span class="nav-number">3.1.</span> <span class="nav-text">控制台客户端（已实现）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试gif"><span class="nav-number">3.1.1.</span> <span class="nav-text">测试gif</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用图灵机器人（暂未实现）"><span class="nav-number">3.2.</span> <span class="nav-text">调用图灵机器人（暂未实现）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端带界面版本（有问题，未调试）"><span class="nav-number">3.3.</span> <span class="nav-text">客户端带界面版本（有问题，未调试）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要代码-1"><span class="nav-number">3.4.</span> <span class="nav-text">主要代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#头文件"><span class="nav-number">3.4.1.</span> <span class="nav-text">头文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章"><span class="nav-number">4.</span> <span class="nav-text">第二章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端界面"><span class="nav-number">4.1.</span> <span class="nav-text">客户端界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主程序代码"><span class="nav-number">4.2.</span> <span class="nav-text">主程序代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#35页第6题"><span class="nav-number">4.3.</span> <span class="nav-text">35页第6题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东东东东</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

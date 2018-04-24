@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络 作业," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.服务器Linux版本:Debian9电脑Linux版本:Linux Mint18.2  一 远程ssh设置1 安装安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式是相同的. sudo apt install openssh-server 安装效果如下图  2 编">
+<meta name="keywords" content="计算机网络 作业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络作业(一) ">
+<meta property="og:url" content="http://lidongspace.cn/2018/04/24/计算机网络作业-一/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.服务器Linux版本:Debian9电脑Linux版本:Linux Mint18.2  一 远程ssh设置1 安装安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式是相同的. sudo apt install openssh-server 安装效果如下图  2 编">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3465073160.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/193083330.png">
+<meta property="og:image" content="https://static.oneinstack.com/images/install_oneinstack.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/2076471233.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3463793438.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3882090967.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3919917148.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/2471366395.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/1312281520.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3266032538.png">
+<meta property="og:updated_time" content="2018-04-24T15:50:12.663Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络作业(一) ">
+<meta name="twitter:description" content="作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.服务器Linux版本:Debian9电脑Linux版本:Linux Mint18.2  一 远程ssh设置1 安装安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式是相同的. sudo apt install openssh-server 安装效果如下图  2 编">
+<meta name="twitter:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3465073160.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lidongspace.cn/2018/04/24/计算机网络作业-一/"/>
+
+
+
+
+
+  <title>计算机网络作业(一)  | Lee's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">这是Lee的个人博客，记录一些技术发展和生活记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lidongspace.cn/2018/04/24/计算机网络作业-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="东东东东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络作业(一) </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T23:13:49+08:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.<br>服务器Linux版本:Debian9<br>电脑Linux版本:Linux Mint18.2</p>
+</blockquote>
+<h1 id="一-远程ssh设置"><a href="#一-远程ssh设置" class="headerlink" title="一 远程ssh设置"></a>一 远程ssh设置</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1 安装"></a>1 安装</h2><p>安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式是相同的.</p>
+<p><code>sudo apt install openssh-server</code></p>
+<p>安装效果如下图</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3465073160.png" alt="2017-09-07 16-53-02屏幕截图.png"></p>
+<h2 id="2-编辑ssh设置"><a href="#2-编辑ssh设置" class="headerlink" title="2 编辑ssh设置"></a>2 编辑ssh设置</h2><p>openssh-server软件的配置文件在/etc/ssh/sshd_config里面,我们要对这个文件有些配置进行更改.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改下面这些项目的设置//监听设置ListenAddress ::ListenAddress 0.0.0.0//授权设置PermitRootLogin yes //允许root用户登录PasswordAuthentication yes //允许密码验证</span><br></pre></td></tr></table></figure>
+<p>修改完上面这些设置应该差不多了.</p>
+<h2 id="3-连接"><a href="#3-连接" class="headerlink" title="3 连接"></a>3 连接</h2><p>如果是服务器,直接用xftp或者putty这些第三方ssh客户端直接连接公网ip地址就可以了,如果是局域网,那就看一下你电脑的局域网ip,然后用其他设备连接,我是用手机客户端连接的,效果如下.<br>服务器:<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/193083330.png" alt="2017-09-08 10-50-26屏幕截图.png"></p>
+<h1 id="二-安装ftp服务器和web服务器"><a href="#二-安装ftp服务器和web服务器" class="headerlink" title="二 安装ftp服务器和web服务器"></a>二 安装ftp服务器和web服务器</h1><blockquote>
+<p><a href="https://oneinstack.com/" target="_blank" rel="noopener">Oneinstack</a>和<a href="https://www.lnmp.org/" target="_blank" rel="noopener">lnmp</a>是两个比较优秀的建站一键包,支持LNMP,LAMP,LANMP.这些东西我以前都搭过,就不自己一步步安装Apache,Mysql,PHP,vstftp了,直接用这个一键包自己编译安装,一部到位</p>
+</blockquote>
+<h2 id="1、-下载"><a href="#1、-下载" class="headerlink" title="1、 下载"></a>1、 下载</h2><p>服务器和电脑操作相同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># apt-get -y install wget screen curl python #for Debian/Ubuntuwget http://aliyun-oss.linuxeye.com/oneinstack-full.tar.gz #阿里云经典网络下载wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz #包含源码，国内外均可下载wget http://mirrors.linuxeye.com/oneinstack.tar.gz #不包含源码，建议仅国外主机下载tar xzf oneinstack-full.tar.gzcd oneinstack #如果需要修改目录(安装、数据存储、Nginx日志)，请修改options.conf文件screen -S oneinstack #如果网路出现中断，可以执行命令`screen -R oneinstack`重新连接安装窗口./install.sh #注：请勿sh install.sh或者bash install.sh这样执行</span><br></pre></td></tr></table></figure>
+<p>选择lamp+pureftp+phpmyadmin编译并且安装<br>安装过程如下：<br><a href="https://www.lidongspace.cn/admin/oneinstack_install" target="_blank" rel="noopener"><img src="https://static.oneinstack.com/images/install_oneinstack.png" alt="img"></a><br>MySQL 5.6以上<br>PHP 5.6以上<br>Apache 2.4</p>
+<h2 id="2、-编译"><a href="#2、-编译" class="headerlink" title="2、 编译"></a>2、 编译</h2><p>前面输入完以后就开始编译，编译在vps薄弱的性能下可能要半个小时以上，安装完之后他会告诉你的网站根目录，数据库等等设置。这时候我们WEB服务器和FTP服务器就已经装完了，接下来增加ftp用户并且将博客系统放入网站根目录就完成了。</p>
+<h2 id="3、-增加ftp用户"><a href="#3、-增加ftp用户" class="headerlink" title="3、 增加ftp用户"></a>3、 增加ftp用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#进入oneinstack目录cd oneinstack#运行pureftpd_vhost.sh脚本./pureftpd_vhost.sh</span><br></pre></td></tr></table></figure>
+<p>然后按照下面图片所示增加<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/2076471233.png" alt="QQ截图20170908113705.png"><br>对ftp用户权限的设置就是对文件夹设置<br>用root或者其他用户创建一个文件夹<br>然后更改这个文件夹权限为<strong>755（只读）</strong><br>这时候我们ftp用户目录设置在这个文件夹<br>他就只有只读权限，不能删除上传。<br>如果我们把这个文件夹权限改为<strong>766或者777（读/写）</strong><br>那么他就可读可写的权限都有了<br>更改权限可直接用第三方ftp软件修改就好了，也可以在ssh里面修改。<br><code>chmod -R 755 dir</code><br>dir可以是绝对路径也可以是相对路径</p>
+<h2 id="4、-增加一个域名vhost（可选）"><a href="#4、-增加一个域名vhost（可选）" class="headerlink" title="4、 增加一个域名vhost（可选）"></a>4、 增加一个域名vhost（可选）</h2><p>也是在oneinstack目录<br><code>./vhost.sh</code><br>如下图所示安装<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3463793438.png" alt="QQ截图20170908115059.png"><br>然后做dns解析我们的域名到我们这台服务器<br>设置好了之后我们就能把我们博客系统放到这个域名目录下，如果你已经做好了dns解析，输入你的域名应该就能看到了，可以考虑一下上一下https，能改加密网站的安全。<br>比如我的网站ssl加密效果如下：<br><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.lidongspace.cn" target="_blank" rel="noopener">检查链接</a></p>
+<h2 id="5、-上传博客系统"><a href="#5、-上传博客系统" class="headerlink" title="5、 上传博客系统"></a>5、 上传博客系统</h2><blockquote>
+<p>已经有很多优秀的博客系统啦，像什么wordpress，hexo，typecho，我们就不要自己造轮子了，直接用别人的优秀成果更好。自己弄费力不讨好。</p>
+</blockquote>
+<p>下载博客系统如<a href="http://typecho.org/download" target="_blank" rel="noopener">typecho</a>解压之后用ftp上传到网站根目录.<br>你如果是默认设置，没有添加域名的话就解压到/data/wwwroot/default文件夹内。<br>如果你添加了域名，就把博客系统上传到/data/wwwroot/<a href="http://www.lidongspace.cn" target="_blank" rel="noopener">www.lidongspace.cn</a> 目录下<br>注意：如果你是用其他用户的ftp或sftp上传的，记得更改文件的用户，用以下的命令。<br><code>chown -R www:www /data/wwwroot/default</code>自己注意更改目录</p>
+<h2 id="6、-配置数据库连接"><a href="#6、-配置数据库连接" class="headerlink" title="6、 配置数据库连接"></a>6、 配置数据库连接</h2><p>输入 http:ip 或者 你的网站域名<a href="https://www.lidongspace.cn/" target="_blank" rel="noopener">你的网站域名</a> 进入安装设置<br>先到phpMyAdmin里创建一个新的数据库。<br>先点击用户，再点击增加用户。然后按下图配置。<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3882090967.png" alt="2017-09-08 11-04-59屏幕截图.png"><br>你在网站安装是填入你的数据库用户名，密码，数据库名就可以安装完成了<br>安装完成界面如下：<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3919917148.png" alt="QQ截图20170908132633.png"></p>
+<h1 id="三-邮箱系统配置"><a href="#三-邮箱系统配置" class="headerlink" title="三 邮箱系统配置"></a>三 邮箱系统配置</h1><h2 id="1、-解析域名"><a href="#1、-解析域名" class="headerlink" title="1、 解析域名"></a>1、 解析域名</h2><p>我是用域名做了一个A解析<br>A mail 123.207.233.97<br>还有一个MX记录<br>MX记录 @ mail.lidongspace.cn<br>PS:发现腾讯云无法设置PTR记录，必须联系客服而且要求是他的VIP客户才能够设置，幸运的是，25端口是开放的，我们可以用smtp服务直接发送，不过由于没有设置PTR很容易进别人邮箱系统的垃圾桶，多次发送之后直接被拒收。因为再过几天他就要关闭25号端口，赶着这个时间差完成了这个作业。</p>
+<h2 id="2、-安装Postfix"><a href="#2、-安装Postfix" class="headerlink" title="2、 安装Postfix"></a>2、 安装Postfix</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get updatesudo apt-get install postfix -y</span><br></pre></td></tr></table></figure>
+<p>安装过程中会让你选择一种Postfix配置类型。一般情况下，我们需要选择第二种类型：<strong>Internet Site</strong>。</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/2471366395.png" alt="QQ截图20170908133822.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No configuration 表示不要做任何配置；Internet Site 表示直接使用本地SMTP服务器发送和接收邮件；Internet with smarthost 表示使用本地SMTP服务器接收邮件，但发送邮件时不直接使用本地SMTP服务器，而是使用第三方smart host来转发邮件；Satellite system 表示邮件的发送和接收都是由第三方smarthost来完成。Local only 表示邮件只能在本机用户之间发送和接收</span><br></pre></td></tr></table></figure>
+<p>在第二个页面System mail name中填入域名，也就是邮箱地址@符号后面的域名，比如，我的邮箱地址是<a href="mailto:lee@lidongspace.cn">lee@lidongspace.cn</a>，所以我填的是lidongspace.cn。当发件人的域名地址没有指定时，Postfix会自动将这个域名添加到发件人的地址中。</p>
+<p>使用netstat来查看Postfix的监听情况：<br><code>sudo netstat -lnpt</code></p>
+<h2 id="3、-发送测试邮件"><a href="#3、-发送测试邮件" class="headerlink" title="3、 发送测试邮件"></a>3、 发送测试邮件</h2><p><code>echo &quot;test email&quot; | sendmailfantasylidong@gmail.com</code><br>如下图所示<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/1312281520.png" alt="20170907191816.png"><br>不久之后,我在我的gmail上发现我的邮件，但是在垃圾箱中，果然，没有PTR记录的自搭邮件系统很难被其他邮箱接收。收到的截图如下。<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3266032538.png" alt="QQ截图20170908135032.png"></p>
+<h1 id="四、-总结"><a href="#四、-总结" class="headerlink" title="四、 总结"></a>四、 总结</h1><p>这一次我使用了Markdown语法来写这篇文章，写的有点糟，希望老师将就着先看看，以前的网站备份丢了，后面我就直接用Google blugger写博客了，知道这次作业才从新开始用自己博客写东西。<br>ftp服务器和web服务器我很早就做过了，就没有一步步安装了，直接用了别人整合好的一部安装包了，就是邮件系统倒是第一次安装，本来想用别人的邮件系统然后运用别人的smtp服务来完成自己的邮箱搭建，那样被拒收的可能性会低很多，后来想了想还是直接用Postfix算了，至少体验一下自己域名服务器的完全掌控的感觉~<br>最后，我发现国内的IDC真的不行，什么都要实名注册，而且很多服务都要VIP客户才能够使用，比如反向dns解析PTR就不能自己弄，必须要发工单，还得是VIP客户才能够使用！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络-作业/" rel="tag"># 计算机网络 作业</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/Google硬盘离线下载计划/" rel="next" title="Google硬盘离线下载计划">
+                <i class="fa fa-chevron-left"></i> Google硬盘离线下载计划
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/24/Mysql常用命令/" rel="prev" title="Mysql常用命令">
+                Mysql常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">东东东东</p>
+              <p class="site-description motion-element" itemprop="description">爱生活，所以爱blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-远程ssh设置"><span class="nav-number">1.</span> <span class="nav-text">一 远程ssh设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装"><span class="nav-number">1.1.</span> <span class="nav-text">1 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-编辑ssh设置"><span class="nav-number">1.2.</span> <span class="nav-text">2 编辑ssh设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-连接"><span class="nav-number">1.3.</span> <span class="nav-text">3 连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-安装ftp服务器和web服务器"><span class="nav-number">2.</span> <span class="nav-text">二 安装ftp服务器和web服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、-下载"><span class="nav-number">2.1.</span> <span class="nav-text">1、 下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、-编译"><span class="nav-number">2.2.</span> <span class="nav-text">2、 编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、-增加ftp用户"><span class="nav-number">2.3.</span> <span class="nav-text">3、 增加ftp用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、-增加一个域名vhost（可选）"><span class="nav-number">2.4.</span> <span class="nav-text">4、 增加一个域名vhost（可选）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、-上传博客系统"><span class="nav-number">2.5.</span> <span class="nav-text">5、 上传博客系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、-配置数据库连接"><span class="nav-number">2.6.</span> <span class="nav-text">6、 配置数据库连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-邮箱系统配置"><span class="nav-number">3.</span> <span class="nav-text">三 邮箱系统配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、-解析域名"><span class="nav-number">3.1.</span> <span class="nav-text">1、 解析域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、-安装Postfix"><span class="nav-number">3.2.</span> <span class="nav-text">2、 安装Postfix</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、-发送测试邮件"><span class="nav-number">3.3.</span> <span class="nav-text">3、 发送测试邮件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、-总结"><span class="nav-number">4.</span> <span class="nav-text">四、 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东东东东</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

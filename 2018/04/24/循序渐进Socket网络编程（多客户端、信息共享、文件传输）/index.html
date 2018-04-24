@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Socket java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：在最近一个即将结束的项目中使用到了Socket编程，用于调用另一系统进行处理并返回数据。故把Socket的基础知识总结梳理一遍。  1、TCP/IP协议　　既然是网络编程，涉及几个系统之间的交互，那么首先要考虑的是如何准确的定位到网络上的一台或几台主机，另一个是如何进行可靠高效的数据传输。这里就要使用到TCP/IP协议。 　　TCP/IP协议（传输控制协议）由网络层的IP协议和传输层的TC">
+<meta name="keywords" content="Socket java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="循序渐进Socket网络编程（多客户端、信息共享、文件传输）">
+<meta property="og:url" content="http://lidongspace.cn/2018/04/24/循序渐进Socket网络编程（多客户端、信息共享、文件传输）/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="前言：在最近一个即将结束的项目中使用到了Socket编程，用于调用另一系统进行处理并返回数据。故把Socket的基础知识总结梳理一遍。  1、TCP/IP协议　　既然是网络编程，涉及几个系统之间的交互，那么首先要考虑的是如何准确的定位到网络上的一台或几台主机，另一个是如何进行可靠高效的数据传输。这里就要使用到TCP/IP协议。 　　TCP/IP协议（传输控制协议）由网络层的IP协议和传输层的TC">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-24T15:50:49.477Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="循序渐进Socket网络编程（多客户端、信息共享、文件传输）">
+<meta name="twitter:description" content="前言：在最近一个即将结束的项目中使用到了Socket编程，用于调用另一系统进行处理并返回数据。故把Socket的基础知识总结梳理一遍。  1、TCP/IP协议　　既然是网络编程，涉及几个系统之间的交互，那么首先要考虑的是如何准确的定位到网络上的一台或几台主机，另一个是如何进行可靠高效的数据传输。这里就要使用到TCP/IP协议。 　　TCP/IP协议（传输控制协议）由网络层的IP协议和传输层的TC">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lidongspace.cn/2018/04/24/循序渐进Socket网络编程（多客户端、信息共享、文件传输）/"/>
+
+
+
+
+
+  <title>循序渐进Socket网络编程（多客户端、信息共享、文件传输） | Lee's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">这是Lee的个人博客，记录一些技术发展和生活记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lidongspace.cn/2018/04/24/循序渐进Socket网络编程（多客户端、信息共享、文件传输）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="东东东东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">循序渐进Socket网络编程（多客户端、信息共享、文件传输）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T23:30:13+08:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言：在最近一个即将结束的项目中使用到了Socket编程，用于调用另一系统进行处理并返回数据。故把Socket的基础知识总结梳理一遍。</p>
+</blockquote>
+<h1 id="1、TCP-IP协议"><a href="#1、TCP-IP协议" class="headerlink" title="1、TCP/IP协议"></a>1、TCP/IP协议</h1><p>　　既然是网络编程，涉及几个系统之间的交互，那么首先要考虑的是如何准确的定位到网络上的一台或几台主机，另一个是如何进行可靠高效的数据传输。这里就要使用到TCP/IP协议。</p>
+<p>　　TCP/IP协议（传输控制协议）由网络层的IP协议和传输层的TCP协议组成。IP层负责网络主机的定位，数据传输的路由，由IP地址可以唯一的确定Internet上的一台主机。TCP层负责面向应用的可靠的或非可靠的数据传输机制，这是网络编程的主要对象。</p>
+<h1 id="2、TCP与UDP"><a href="#2、TCP与UDP" class="headerlink" title="2、TCP与UDP"></a>2、TCP与UDP</h1><p>　　TCP是一种面向连接的保证可靠传输的协议。通过TCP协议传输，得到的是一个顺序的无差错的数据流。发送方和接收方的成对的两个socket之间必须建立连接，以便在TCP协议的基础上进行通信，当一个socket（通常都是server socket）等待建立连接时，另一个socket可以要求进行连接，一旦这两个socket连接起来，它们就可以进行双向数据传输，双方都可以进行发送或接收操作。</p>
+<p>　　UDP是一种面向无连接的协议，每个数据报都是一个独立的信息，包括完整的源地址或目的地址，它在网络上以任何可能的路径传往目的地，因此能否到达目的地，到达目的地的时间以及内容的正确性都是不能被保证的。</p>
+<h2 id="TCP与UDP区别："><a href="#TCP与UDP区别：" class="headerlink" title="　　TCP与UDP区别："></a>　　TCP与UDP区别：</h2><h3 id="TCP特点："><a href="#TCP特点：" class="headerlink" title="　　TCP特点："></a>　　TCP特点：</h3><p>TCP是面向连接的协议，通过三次握手建立连接，通讯完成时要拆除连接，由于TCP是面向连接协议，所以只能用于点对点的通讯。而且建立连接也需要消耗时间和开销。<br>TCP传输数据无大小限制，进行大数据传输。<br>TCP是一个可靠的协议，它能保证接收方能够完整正确地接收到发送方发送的全部数据。</p>
+<h3 id="UDP特点："><a href="#UDP特点：" class="headerlink" title="　　UDP特点："></a>　　UDP特点：</h3><p>UDP是面向无连接的通讯协议，UDP数据包括目的端口号和源端口号信息，由于通讯不需要连接，所以可以实现广播发送。<br>UDP传输数据时有大小限制，每个被传输的数据报必须限定在64KB之内。<br>UDP是一个不可靠的协议，发送方所发送的数据报并不一定以相同的次序到达接收方。</p>
+<h3 id="TCP与UDP应用："><a href="#TCP与UDP应用：" class="headerlink" title="　　TCP与UDP应用："></a>　　TCP与UDP应用：</h3><p>TCP在网络通信上有极强的生命力，例如远程连接（Telnet）和文件传输（FTP）都需要不定长度的数据被可靠地传输。但是可靠的传输是要付出代价的，对数据内容正确性的检验必然占用计算机的处理时间和网络的带宽，因此TCP传输的效率不如UDP高。<br>UDP操作简单，而且仅需要较少的监护，因此通常用于局域网高可靠性的分散系统中client/server应用程序。例如视频会议系统，并不要求音频视频数据绝对的正确，只要保证连贯性就可以了，这种情况下显然使用UDP会更合理一些。</p>
+<h1 id="3、Socket是什么"><a href="#3、Socket是什么" class="headerlink" title="3、Socket是什么"></a>3、Socket是什么</h1><p>　　Socket通常也称作”套接字”，用于描述IP地址和端口，是一个通信链的句柄。网络上的两个程序通过一个双向的通讯连接实现数据的交换，这个双向链路的一端称为一个Socket，一个Socket由一个IP地址和一个端口号唯一确定。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。 Socket是TCP/IP协议的一个十分流行的编程界面，但是，Socket所支持的协议种类也不光TCP/IP一种，因此两者之间是没有必然联系的。在Java环境下，Socket编程主要是指基于TCP/IP协议的网络编程。</p>
+<p>　　Socket通讯过程：服务端监听某个端口是否有连接请求，客户端向服务端发送连接请求，服务端收到连接请求向客户端发出接收消息，这样一个连接就建立起来了。客户端和服务端都可以相互发送消息与对方进行通讯。</p>
+<p>　　Socket的基本工作过程包含以下四个步骤：</p>
+<p>创建Socket；<br>打开连接到Socket的输入输出流；<br>按照一定的协议对Socket进行读写操作；<br>关闭Socket。</p>
+<h1 id="4、多客户端连接服务器"><a href="#4、多客户端连接服务器" class="headerlink" title="4、多客户端连接服务器"></a>4、多客户端连接服务器</h1><p>　　上面的服务器端程序一次只能连接一个客户端，这在实际应用中显然是不可能的。通常的网络环境是多个客户端连接到某个主机进行通讯，所以我们要对上面的程序进行改造。</p>
+<p>　　<strong>设计思路：服务器端主程序监听某一个端口，客户端发起连接请求，服务器端主程序接收请求，同时构造一个线程类，用于接管会话。当一个Socket会话产生后，这个会话就会交给线程进行处理，主程序继续进行监听。</strong></p>
+<p>　　下面的实现程序流程是：客户端和服务器建立连接，客户端发送消息，服务端根据消息进行处理并返回消息，若客户端申请关闭，则服务器关闭此连接，双方通讯结束。</p>
+<p>　　客户端程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.socket;<span class="keyword">import</span> java.io.BufferedReader;<span class="keyword">import</span> java.io.InputStreamReader;<span class="keyword">import</span> java.io.PrintWriter;<span class="keyword">import</span> java.net.Socket;<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SocketClient</span> </span>&#123;    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;        <span class="keyword">try</span> &#123;            Socket socket = <span class="keyword">new</span> Socket(<span class="string">"127.0.0.1"</span>, <span class="number">2013</span>);            socket.setSoTimeout(<span class="number">60000</span>);            PrintWriter printWriter = <span class="keyword">new</span> PrintWriter(socket.getOutputStream(), <span class="keyword">true</span>);            BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));            String result = <span class="string">""</span>;            <span class="keyword">while</span>(result.indexOf(<span class="string">"bye"</span>) == -<span class="number">1</span>)&#123;                BufferedReader sysBuff = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));                printWriter.println(sysBuff.readLine());                printWriter.flush();                result = bufferedReader.readLine();                System.out.println(<span class="string">"Server say : "</span> + result);            &#125;            printWriter.close();            bufferedReader.close();            socket.close();        &#125; <span class="keyword">catch</span> (Exception e) &#123;            System.out.println(<span class="string">"Exception:"</span> + e);        &#125;    &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>服务器端程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.socket;<span class="keyword">import</span> java.io.*;<span class="keyword">import</span> java.net.*;<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> <span class="keyword">extends</span> <span class="title">ServerSocket</span> </span>&#123;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVER_PORT = <span class="number">2013</span>;    <span class="function"><span class="keyword">public</span> <span class="title">Server</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;        <span class="keyword">super</span>(SERVER_PORT);        <span class="keyword">try</span> &#123;            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;                Socket socket = accept();                <span class="keyword">new</span> CreateServerThread(socket);<span class="comment">//当有请求时，启一个线程处理            &#125;        &#125; catch (IOException e) &#123;        &#125; finally &#123;            close();        &#125;    &#125;    //线程类    class CreateServerThread extends Thread &#123;        private Socket client;        private BufferedReader bufferedReader;        private PrintWriter printWriter;        public CreateServerThread(Socket s) throws IOException &#123;            client = s;            bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));            printWriter = new PrintWriter(client.getOutputStream(), true);            System.out.println("Client(" + getName() + ") come in...");            start();        &#125;        public void run() &#123;            try &#123;                String line = bufferedReader.readLine();                while (!line.equals("bye")) &#123;                    printWriter.println("continue, Client(" + getName() + ")!");                    line = bufferedReader.readLine();                    System.out.println("Client(" + getName() + ") say: " + line);                &#125;                printWriter.println("bye, Client(" + getName() + ")!");                System.out.println("Client(" + getName() + ") exit!");                printWriter.close();                bufferedReader.close();                client.close();            &#125; catch (IOException e) &#123;            &#125;        &#125;    &#125;    public static void main(String[] args) throws IOException &#123;        new Server();    &#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Socket-java/" rel="tag"># Socket java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/计算机网络作业-三/" rel="next" title="计算机网络作业(三)">
+                <i class="fa fa-chevron-left"></i> 计算机网络作业(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/24/mfc工程控件中调用main（int-argc-char-argv-函数/" rel="prev" title="mfc工程控件中调用main（int argc,char *argv[])函数">
+                mfc工程控件中调用main（int argc,char *argv[])函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">东东东东</p>
+              <p class="site-description motion-element" itemprop="description">爱生活，所以爱blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、TCP-IP协议"><span class="nav-number">1.</span> <span class="nav-text">1、TCP/IP协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、TCP与UDP"><span class="nav-number">2.</span> <span class="nav-text">2、TCP与UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP与UDP区别："><span class="nav-number">2.1.</span> <span class="nav-text">　　TCP与UDP区别：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP特点："><span class="nav-number">2.1.1.</span> <span class="nav-text">　　TCP特点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP特点："><span class="nav-number">2.1.2.</span> <span class="nav-text">　　UDP特点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP与UDP应用："><span class="nav-number">2.1.3.</span> <span class="nav-text">　　TCP与UDP应用：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、Socket是什么"><span class="nav-number">3.</span> <span class="nav-text">3、Socket是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、多客户端连接服务器"><span class="nav-number">4.</span> <span class="nav-text">4、多客户端连接服务器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东东东东</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

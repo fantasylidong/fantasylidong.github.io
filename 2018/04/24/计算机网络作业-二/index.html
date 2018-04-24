@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络 作业 MFC C++," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这次的作业是写一个程序查看所有的网卡信息，并列出ip地址，子网掩码，网关地址，最好加一个关闭和重启网卡的功能，修改网卡信息功能，由于技术时间有限只完成了基本功能。以后会开发完的  更新一：新增dns查询 开发环境说明　　 我的电脑系统是Win10 pro  　　开发环境是Visual Studio 2017  　　使用语言：基于C++的MFC开发 过程新建一个MFC工程 更改文字的编码我们需要">
+<meta name="keywords" content="计算机网络 作业 MFC C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络作业(二)">
+<meta property="og:url" content="http://lidongspace.cn/2018/04/24/计算机网络作业-二/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="这次的作业是写一个程序查看所有的网卡信息，并列出ip地址，子网掩码，网关地址，最好加一个关闭和重启网卡的功能，修改网卡信息功能，由于技术时间有限只完成了基本功能。以后会开发完的  更新一：新增dns查询 开发环境说明　　 我的电脑系统是Win10 pro  　　开发环境是Visual Studio 2017  　　使用语言：基于C++的MFC开发 过程新建一个MFC工程 更改文字的编码我们需要">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/2217177798.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3450463252.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/756644931.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3771151326.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3325987580.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/3896485204.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/2616033225.png">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/4122257067.gif">
+<meta property="og:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/722461460.png">
+<meta property="og:updated_time" content="2018-04-24T15:49:48.204Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络作业(二)">
+<meta name="twitter:description" content="这次的作业是写一个程序查看所有的网卡信息，并列出ip地址，子网掩码，网关地址，最好加一个关闭和重启网卡的功能，修改网卡信息功能，由于技术时间有限只完成了基本功能。以后会开发完的  更新一：新增dns查询 开发环境说明　　 我的电脑系统是Win10 pro  　　开发环境是Visual Studio 2017  　　使用语言：基于C++的MFC开发 过程新建一个MFC工程 更改文字的编码我们需要">
+<meta name="twitter:image" content="https://www.lidongspace.cn/usr/uploads/2017/09/2217177798.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lidongspace.cn/2018/04/24/计算机网络作业-二/"/>
+
+
+
+
+
+  <title>计算机网络作业(二) | Lee's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">这是Lee的个人博客，记录一些技术发展和生活记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lidongspace.cn/2018/04/24/计算机网络作业-二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="东东东东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络作业(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T23:24:58+08:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<blockquote>
+<p>这次的作业是写一个程序查看所有的网卡信息，并列出ip地址，子网掩码，网关地址，最好加一个关闭和重启网卡的功能，修改网卡信息功能，由于技术时间有限只完成了基本功能。以后会开发完的</p>
+</blockquote>
+<p>更新一：新增dns查询</p>
+<h1 id="开发环境说明"><a href="#开发环境说明" class="headerlink" title="开发环境说明"></a>开发环境说明</h1><p>　　 我的电脑系统是Win10 pro</p>
+<p> 　　开发环境是Visual Studio 2017</p>
+<p> 　　使用语言：基于C++的MFC开发</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="新建一个MFC工程"><a href="#新建一个MFC工程" class="headerlink" title="新建一个MFC工程"></a>新建一个MFC工程</h2><p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/2217177798.png" alt="img"></p>
+<h2 id="更改文字的编码"><a href="#更改文字的编码" class="headerlink" title="更改文字的编码"></a>更改文字的编码</h2><p>我们需要多字节编码，不然的话不能使用汉语字符串</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3450463252.png" alt="img"></p>
+<h2 id="设置图形界面"><a href="#设置图形界面" class="headerlink" title="设置图形界面"></a>设置图形界面</h2><p>我们需要2个Group box，一个Combo box，3个Edit Control和2个Button。两个Button一个用来初始化数据，一个用来根据网卡名来查询网卡信息。<br>图形界面如下所示：</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/756644931.png" alt="界面.png"><br>新增dns查询后界面<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3771151326.png" alt="界面.png"></p>
+<h2 id="设置关联变量"><a href="#设置关联变量" class="headerlink" title="设置关联变量"></a>设置关联变量</h2><p>右键-&gt;类向导-&gt;成员变量-&gt;添加变量</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3325987580.png" alt="添加成员变量.png"></p>
+<p>添加combo变量</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/3896485204.png" alt="建立conbo类对象.png"></p>
+<p>添加edit变量</p>
+<p>gateway(网关)</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/2616033225.png" alt="网关变量设置.png"></p>
+<p>像添加网关一样添加其他变量</p>
+<h2 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><h4 id="NetcardInfo-h添加"><a href="#NetcardInfo-h添加" class="headerlink" title="NetcardInfo.h添加"></a>NetcardInfo.h添加</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;resource.h&quot;       // 主符号</span><br><span class="line">#include &lt;WinSock2.h&gt;  </span><br><span class="line">#include &lt;Iphlpapi.h&gt;  </span><br><span class="line">#include &lt;iostream&gt; </span><br><span class="line">#pragma comment(lib, &quot;IPHLPAPI.lib&quot;)  </span><br><span class="line">#pragma comment(lib, &quot;ws2_32.lib&quot;)  </span><br><span class="line">using namespace std;</span><br></pre></td></tr></table></figure>
+<h4 id="stdafx-h添加"><a href="#stdafx-h添加" class="headerlink" title="stdafx.h添加"></a>stdafx.h添加</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">extern CString cardname[10],ipaddress[10],ipmask[10],gateway[10];//显卡名，ip地址，子网掩码，网关</span><br><span class="line">extern int netCardNum;//网卡数量</span><br><span class="line">extern void start();//查看网卡信息函数eextern int dnsNum[10];</span><br><span class="line">extern void dnsget(int a);</span><br></pre></td></tr></table></figure>
+<h3 id="正式代码"><a href="#正式代码" class="headerlink" title="正式代码"></a>正式代码</h3><h4 id="stdafx-app添加"><a href="#stdafx-app添加" class="headerlink" title="stdafx.app添加"></a>stdafx.app添加</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//变量声明</span><br><span class="line">CString cardname[10],ipaddress[10],ipmask[10],gateway[10];</span><br><span class="line">int netCardNum = 0;</span><br><span class="line">int dnsNum[10];</span><br><span class="line">void dnsget(int a);void start();</span><br></pre></td></tr></table></figure>
+<h4 id="NetcardInfo-app添加"><a href="#NetcardInfo-app添加" class="headerlink" title="NetcardInfo.app添加"></a>NetcardInfo.app添加</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">void start()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    PIP_ADAPTER_INFO pIpAdapterInfo = new IP_ADAPTER_INFO();//PIP_ADAPTER_INFO结构体指针存储本机网卡信息  </span><br><span class="line">    unsigned long stSize = sizeof(IP_ADAPTER_INFO);         //得到结构体大小,用于GetAdaptersInfo参数  </span><br><span class="line">    int nRel = GetAdaptersInfo(pIpAdapterInfo, &amp;stSize);     //调用GetAdaptersInfo函数,填充pIpAdapterInfo指针变量;其中stSize参数既是一个输入量也是一个输出量  </span><br><span class="line"></span><br><span class="line">    int IPnumPerNetCard = 0; //记录每张网卡上的IP地址数量  </span><br><span class="line"></span><br><span class="line">    if (ERROR_BUFFER_OVERFLOW == nRel)</span><br><span class="line">    &#123;</span><br><span class="line">        //如果函数返回的是ERROR_BUFFER_OVERFLOW  </span><br><span class="line">        //则说明GetAdaptersInfo参数传递的内存空间不够,同时其传出stSize,表示需要的空间大小  </span><br><span class="line">        //这也是说明为什么stSize既是一个输入量也是一个输出量                 </span><br><span class="line">        delete pIpAdapterInfo;//释放原来的内存空间       </span><br><span class="line">        pIpAdapterInfo = (PIP_ADAPTER_INFO)new BYTE[stSize];//重新申请内存空间用来存储所有网卡信息          </span><br><span class="line">        nRel = GetAdaptersInfo(pIpAdapterInfo, &amp;stSize);    //再次调用GetAdaptersInfo函数,填充pIpAdapterInfo指针变量  </span><br><span class="line">    &#125;</span><br><span class="line">    if (ERROR_SUCCESS == nRel)</span><br><span class="line">    &#123;</span><br><span class="line">        //输出网卡信息  </span><br><span class="line">        //可能有多网卡,因此通过循环去判断  </span><br><span class="line">        while (pIpAdapterInfo)</span><br><span class="line">        &#123;</span><br><span class="line">            cardname[netCardNum] = pIpAdapterInfo-&gt;Description;</span><br><span class="line">            IP_ADDR_STRING pIpAddrString = &amp;(pIpAdapterInfo-&gt;IpAddressList);</span><br><span class="line">            ipaddress[netCardNum] = pIpAddrString-&gt;IpAddress.String;</span><br><span class="line">            ipmask[netCardNum] = pIpAddrString-&gt;IpMask.String;</span><br><span class="line">            gateway[netCardNum] = pIpAdapterInfo-&gt;GatewayList.IpAddress.String;</span><br><span class="line">            pIpAdapterInfo = pIpAdapterInfo-&gt;Next;</span><br><span class="line">dnsget(netCardNum);</span><br><span class="line">            netCardNum++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //释放内存空间  </span><br><span class="line">    if (pIpAdapterInfo)</span><br><span class="line">    &#123;</span><br><span class="line">        delete pIpAdapterInfo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加事件处理"><a href="#添加事件处理" class="headerlink" title="添加事件处理"></a><em>添加事件处理</em></h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a><em>初始化</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//在BOOL CNetcardInfoDlg::OnInitDialog()函数中添加初始化事件</span><br><span class="line">    m_combo_CardName.SetWindowText(“下拉选单选取网卡”);</span><br><span class="line">    m_edit_ipaddress = “还没有选取网卡”;</span><br><span class="line">    m_edit_ipmask = “还没有选取网卡”;</span><br><span class="line">    m_edit_gateway = “还没有选取网卡”;</span><br><span class="line">        m_edit_dnsadd1= “还没有选取网卡”;</span><br><span class="line">    m_edit_dnsadd2 = “还没有选取网卡”;</span><br><span class="line">    start();</span><br><span class="line">        for (int i = 0; i &lt; netCardNum; i++)</span><br><span class="line">            m_combo_CardName.AddString(cardname[i]);</span><br></pre></td></tr></table></figure>
+<h3 id="单击查询按钮事件"><a href="#单击查询按钮事件" class="headerlink" title="单击查询按钮事件"></a><em>单击查询按钮事件</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">void CNetcardInfoDlg::OnBnClickedOk()</span><br><span class="line">&#123;</span><br><span class="line">    // TODO: 在此添加控件通知处理程序代码</span><br><span class="line">    UpdateData(true);</span><br><span class="line">    CString str;</span><br><span class="line">    m_combo_CardName.GetWindowText(str);//获取选择的网卡名字</span><br><span class="line">    for (int i = 0; i&lt;netCardNum; i++)</span><br><span class="line">        if (str == cardname[i])</span><br><span class="line">        &#123;</span><br><span class="line">            m_edit_gateway = gateway[i];</span><br><span class="line">            m_edit_ipaddress = ipaddress[i];</span><br><span class="line">            m_edit_ipmask = ipmask[i];</span><br><span class="line">            if (dnsNum[i] == 2) &#123;</span><br><span class="line">                m_edit_dnsadd1 = dnsname1[i]; m_edit_dnsadd2 = dnsname2[i];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">                if (dnsNum[i] == 1) &#123;</span><br><span class="line">                    m_edit_dnsadd1 = dnsname1[i]; m_edit_dnsadd2 = “第二个dns未设置”;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    m_edit_dnsadd2 = “第二个dns未设置”; m_edit_dnsadd1 = “第一个dns未设置”;</span><br><span class="line">                &#125;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    UpdateData(false);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>dns查询功能<br><strong>在Netcardinfo.app中添加</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void dnsget(int netCardNum)</span><br><span class="line">&#123;</span><br><span class="line">    FIXED_INFO  FixedInfo;     // 定义保存本地计算机网络参数信息的结构体指针</span><br><span class="line">    ULONG    ulOutBufLen;       // 保存获取到的本地计算机网络参数信息结构体链表的长度</span><br><span class="line">    DWORD    dwRetVal;          // 调用GetNetworkParams()函数的返回值</span><br><span class="line">    IP_ADDR_STRING  pIPAddr;   // 保存所有DNS服务器的IP地址列表</span><br><span class="line"></span><br><span class="line">                                // 获取信息</span><br><span class="line">    dnsNum[netCardNum] = 0;</span><br><span class="line">    FixedInfo = (FIXED_INFO )GlobalAlloc(GPTR, sizeof(FIXED_INFO));   // 为FixedInfo结构体分配内存空间</span><br><span class="line">    ulOutBufLen = sizeof(FIXED_INFO);         // 初始化ulOutBufLen变量值</span><br><span class="line"></span><br><span class="line">                                              // 第1次调用GetNetworkParams()函数，获取返回结果的大小到ulOutBufLen中</span><br><span class="line">    if (ERROR_BUFFER_OVERFLOW == GetNetworkParams(FixedInfo, ulOutBufLen)) &#123;</span><br><span class="line">        GlobalFree(FixedInfo);</span><br><span class="line">        FixedInfo = (FIXED_INFO *)GlobalAlloc(GPTR, ulOutBufLen);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 第2次调用GetNetworkParams()函数，以前面获取的ulOutBufLen作为参数，</span><br><span class="line">    if (dwRetVal = GetNetworkParams(FixedInfo, ulOutBufLen) != ERROR_SUCCESS) &#123;</span><br><span class="line">        printf(调用GetNetworkParams()函数失败。返回值: %08x\n;, dwRetVal);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        dnsname1[netCardNum] = FixedInfo-&gt;DnsServerList.IpAddress.String;</span><br><span class="line">        pIPAddr = FixedInfo-&gt;DnsServerList.Next;</span><br><span class="line">        dnsNum[netCardNum]++;</span><br><span class="line">        while (pIPAddr) &#123;</span><br><span class="line">            dnsname2[netCardNum]= pIPAddr-&gt;IpAddress.String;</span><br><span class="line">            pIPAddr = pIPAddr-&gt;Next;</span><br><span class="line">            dnsNum[netCardNum]++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>​      效果如下</p>
+<p><img src="https://www.lidongspace.cn/usr/uploads/2017/09/4122257067.gif" alt="作业测试.gif"><br>增加dns后效果如下<br><img src="https://www.lidongspace.cn/usr/uploads/2017/09/722461460.png" alt="测试增加dns.png"></p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>​       <em>以前写的程序都不用写界面，还好上次数据库上机学会了一点MFC编程，去网上查了一下获得网卡信息的方法，然后学着调用，然后在MFC上用全局变量储存得到的网卡信息，然后用数据库编程的基础加到了软件上，还好最后成功了。最后感谢巨硬给了这么好的软件，调试特别好用哈哈哈。</em></p>
+<p><em>附件下载：google网盘</em></p>
+<p>本地下载:<a href="https://www.lidongspace.cn/usr/uploads/2017/09/3555479341.rar" target="_blank" rel="noopener">NetcardInfo.rar</a></p>
+<p><em>google blogger网页备份：链接</em></p>
+<h2 id="新增dns查询功能，重新打包"><a href="#新增dns查询功能，重新打包" class="headerlink" title="新增dns查询功能，重新打包"></a>新增dns查询功能，重新打包</h2><p><a href="https://www.lidongspace.cn/usr/uploads/2017/09/1986761986.rar" target="_blank" rel="noopener">本地下载：NetcardInfoaddns.rar</a></p>
+<p>如果无法运行请安装<a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads" target="_blank" rel="noopener">vc++2017依赖库</a>已经打包发布，不再需要</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络-作业-MFC-C/" rel="tag"># 计算机网络 作业 MFC C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/我的Chromebook新玩法/" rel="next" title="我的Chromebook新玩法">
+                <i class="fa fa-chevron-left"></i> 我的Chromebook新玩法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/24/解决typecho上传附件错误原因/" rel="prev" title="解决typecho上传附件错误原因">
+                解决typecho上传附件错误原因 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">东东东东</p>
+              <p class="site-description motion-element" itemprop="description">爱生活，所以爱blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开发环境说明"><span class="nav-number">1.</span> <span class="nav-text">开发环境说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建一个MFC工程"><span class="nav-number">2.1.</span> <span class="nav-text">新建一个MFC工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改文字的编码"><span class="nav-number">2.2.</span> <span class="nav-text">更改文字的编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置图形界面"><span class="nav-number">2.3.</span> <span class="nav-text">设置图形界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置关联变量"><span class="nav-number">2.4.</span> <span class="nav-text">设置关联变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写代码"><span class="nav-number">2.5.</span> <span class="nav-text">编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#头文件"><span class="nav-number">2.5.1.</span> <span class="nav-text">头文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NetcardInfo-h添加"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">NetcardInfo.h添加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stdafx-h添加"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">stdafx.h添加</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正式代码"><span class="nav-number">2.5.2.</span> <span class="nav-text">正式代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#stdafx-app添加"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">stdafx.app添加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NetcardInfo-app添加"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">NetcardInfo.app添加</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加事件处理"><span class="nav-number">2.6.</span> <span class="nav-text">添加事件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">2.6.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单击查询按钮事件"><span class="nav-number">2.6.2.</span> <span class="nav-text">单击查询按钮事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">2.7.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">3.</span> <span class="nav-text">结论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新增dns查询功能，重新打包"><span class="nav-number">3.1.</span> <span class="nav-text">新增dns查询功能，重新打包</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东东东东</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
