@@ -354,16 +354,16 @@
       
         
           
-            <blockquote>
-<p>Chromebook对于学生来说确实是一款不可多得的神器，续航时间长，开机速度快，基本不会特意去开机。我使用的是Acer的c720，这款电脑由于不是arm的主板，所以不支持andriod的应用，屏幕是11.6寸，比较方便携带，重量的话大概是2.76磅，大约1.25kg。续航时间过几天试用之后给出。</p>
-</blockquote>
-<h1 id="翻墙服务"><a href="#翻墙服务" class="headerlink" title="翻墙服务"></a>翻墙服务</h1><p>看了一下，如果不能安装安卓的应用的话，那么只有2个方案。</p>
-<h2 id="1、shadowsocks"><a href="#1、shadowsocks" class="headerlink" title="1、shadowsocks"></a>1、shadowsocks</h2><p>他这个版本已经太老了，而且目前ss官方已经能够检测并且阻断连接，故放弃这个方案。</p>
-<h2 id="2、vpn"><a href="#2、vpn" class="headerlink" title="2、vpn"></a>2、vpn</h2><p>Chromebook自带了l2ep和openvpn的vpn连接，但是这两个和第一个方案也好不到哪里去，当前还比较安全的vpn连接有SSTP和思科的anyconnect，但是sSTP在chromeos上是不支持的。好消息是思科的anyconnect是支持，而我的代理服务商刚好支持这个协议，故选用。</p>
-<p>##3、改hosts<br>怎么说呢，这个最近墙升级了，对于某些网站采用了ca证书阻断连接，一旦发现你的连接是google网站的证书，那么墙就会阻断。现在没被发现而且稳定的hosts不太好找了，我也没心思去用，也抛弃这个做法。</p>
-<p>#奖励<br>299的垃圾见到了2年的100g的google硬盘，在2017.7.1前还能免费使用3个月的google music服务。</p>
-
           
+Chromebook对于学生来说确实是一款不可多得的神器，续航时间长，开机速度快，基本不会特意去开机。我使用的是Acer的c720，这款电脑由于不是arm的主板，所以不支持andriod的应用，屏幕是11.6寸，比较方便携带，重量的话大概是2.76磅，大约1.25kg。续航时间过几天试用之后给出。
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/24/我的Chromebook新玩法/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -523,53 +523,20 @@
       
         
           
-            <h1 id="1、MySQL常用命令"><a href="#1、MySQL常用命令" class="headerlink" title="1、MySQL常用命令"></a>1、MySQL常用命令</h1><pre><code>create database name; 创建数据库
+          1、MySQL常用命令create database name; 创建数据库
 use databasename; 选择数据库
 drop database name 直接删除数据库，不提醒
 show tables; 显示表
 describe tablename; 表的详细描述
-select 中加上distinct去除重复字段
-mysqladmin drop databasename 删除数据库前，有提示。
-显示当前mysql版本和当前日期
-select version(),current_date;
-</code></pre><h1 id="2、修改mysql中root的密码："><a href="#2、修改mysql中root的密码：" class="headerlink" title="2、修改mysql中root的密码："></a>2、修改mysql中root的密码：</h1><pre><code>mysql&gt; update user set password=password(”xueok654123″) where user=’root’;
-mysql&gt; flush privileges //刷新数据库
-mysql&gt;use dbname； 打开数据库：
-mysql&gt;show databases; 显示所有数据库
-mysql&gt;show tables; 显示数据库mysql中所有的表：先use mysql；然后
-mysql&gt;describe user; 显示表mysql数据库中user表的列信息）；
-</code></pre><h1 id="3、grant"><a href="#3、grant" class="headerlink" title="3、grant"></a>3、grant</h1><pre><code>创建一个可以从任何地方连接服务器的一个完全的超级用户，但是必须使用一个口令something做这个
-mysql&gt; grant all privileges on *.* to user@localhost identified by ’something’ with
-增加新用户
-格式：grant select on 数据库.* to 用户名@登录主机 identified by “密码”
-GRANT ALL PRIVILEGES ON *.* TO monty@localhost IDENTIFIED BY ’something’ WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON *.* TO monty@”%” IDENTIFIED BY ’something’ WITH GRANT OPTION;
-删除授权：
-mysql&gt; revoke all privileges on *.* from root@”%”;
-mysql&gt; delete from user where user=”root” and host=”%”;
-mysql&gt; flush privileges;
-创建一个用户custom在特定客户端it363.com登录，可访问特定数据库fangchandb
-mysql &gt;grant select, insert, update, delete, create,drop on fangchandb.* to custom@ it363.com identified by ‘ passwd’
-重命名表:
-mysql &gt; alter table t1 rename t2;
-</code></pre><h1 id="4、mysqldump"><a href="#4、mysqldump" class="headerlink" title="4、mysqldump"></a>4、mysqldump</h1><pre><code>备份数据库
-shell&gt; mysqldump -h host -u root -p dbname &gt;dbname_backup.sql
-恢复数据库
-shell&gt; mysqladmin -h myhost -u root -p create dbname
-shell&gt; mysqldump -h host -u root -p dbname &lt; dbname_backup.sql
-如果只想卸出建表指令，则命令如下：
-shell&gt; mysqladmin -u root -p -d databasename &gt; a.sql
-如果只想卸出插入数据的sql命令，而不需要建表命令，则命令如下：
-shell&gt; mysqladmin -u root -p -t databasename &gt; a.sql
-那么如果我只想要数据，而不想要什么sql命令时，应该如何操作呢？
-　　 mysqldump -T./ phptest driver
-其中，只有指定了-T参数才可以卸出纯文本文件，表示卸出数据的目录，./表示当前目录，即与mysqldump同一目录。如果不指定driver 表，则将卸出整个数据库的数据。每个表会生成两个文件，一个为.sql文件，包含建表执行。另一个为.txt文件，只包含数据，且没有sql指令。
-</code></pre><h2 id="5、可将查询存储在一个文件中并告诉mysql从文件中读取查询而不是等待键盘输入。可利用外壳程序键入重定向实用程序来完成这项工作。"><a href="#5、可将查询存储在一个文件中并告诉mysql从文件中读取查询而不是等待键盘输入。可利用外壳程序键入重定向实用程序来完成这项工作。" class="headerlink" title="5、可将查询存储在一个文件中并告诉mysql从文件中读取查询而不是等待键盘输入。可利用外壳程序键入重定向实用程序来完成这项工作。"></a>5、可将查询存储在一个文件中并告诉mysql从文件中读取查询而不是等待键盘输入。可利用外壳程序键入重定向实用程序来完成这项工作。</h2><pre><code>例如，如果在文件my_file.sql 中存放有查
-询，可如下执行这些查询：
-例如，如果您想将建表语句提前写在sql.txt中:
-mysql &gt; mysql -h myhost -u root -p database &lt; sql.txt
-</code></pre>
-          
+select 中加上di
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/24/Mysql常用命令/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -729,43 +696,18 @@ mysql &gt; mysql -h myhost -u root -p database &lt; sql.txt
       
         
           
-            <blockquote>
-<p>作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.<br>服务器Linux版本:Debian9<br>电脑Linux版本:Linux Mint18.2</p>
-</blockquote>
-<h1 id="一-远程ssh设置"><a href="#一-远程ssh设置" class="headerlink" title="一 远程ssh设置"></a>一 远程ssh设置</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1 安装"></a>1 安装</h2><p>安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式是相同的.</p>
-<p><code>sudo apt install openssh-server</code></p>
-<p>安装效果如下图</p>
-<p><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/3465073160.png?raw=true" alt="2017-09-07 16-53-02屏幕截图.png"></p>
-<h2 id="2-编辑ssh设置"><a href="#2-编辑ssh设置" class="headerlink" title="2 编辑ssh设置"></a>2 编辑ssh设置</h2><p>openssh-server软件的配置文件在/etc/ssh/sshd_config里面,我们要对这个文件有些配置进行更改.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改下面这些项目的设置//监听设置ListenAddress ::ListenAddress 0.0.0.0//授权设置PermitRootLogin yes //允许root用户登录PasswordAuthentication yes //允许密码验证</span><br></pre></td></tr></table></figure>
-<p>修改完上面这些设置应该差不多了.</p>
-<h2 id="3-连接"><a href="#3-连接" class="headerlink" title="3 连接"></a>3 连接</h2><p>如果是服务器,直接用xftp或者putty这些第三方ssh客户端直接连接公网ip地址就可以了,如果是局域网,那就看一下你电脑的局域网ip,然后用其他设备连接,我是用手机客户端连接的,效果如下.<br>服务器:<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/193083330.png?raw=true" alt="2017-09-08 10-50-26屏幕截图.png"></p>
-<h1 id="二-安装ftp服务器和web服务器"><a href="#二-安装ftp服务器和web服务器" class="headerlink" title="二 安装ftp服务器和web服务器"></a>二 安装ftp服务器和web服务器</h1><blockquote>
-<p><a href="https://oneinstack.com/" target="_blank" rel="noopener">Oneinstack</a>和<a href="https://www.lnmp.org/" target="_blank" rel="noopener">lnmp</a>是两个比较优秀的建站一键包,支持LNMP,LAMP,LANMP.这些东西我以前都搭过,就不自己一步步安装Apache,Mysql,PHP,vstftp了,直接用这个一键包自己编译安装,一部到位</p>
-</blockquote>
-<h2 id="1、-下载"><a href="#1、-下载" class="headerlink" title="1、 下载"></a>1、 下载</h2><p>服务器和电脑操作相同</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># apt-get -y install wget screen curl python #for Debian/Ubuntuwget http://aliyun-oss.linuxeye.com/oneinstack-full.tar.gz #阿里云经典网络下载wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz #包含源码，国内外均可下载wget http://mirrors.linuxeye.com/oneinstack.tar.gz #不包含源码，建议仅国外主机下载tar xzf oneinstack-full.tar.gzcd oneinstack #如果需要修改目录(安装、数据存储、Nginx日志)，请修改options.conf文件screen -S oneinstack #如果网路出现中断，可以执行命令`screen -R oneinstack`重新连接安装窗口./install.sh #注：请勿sh install.sh或者bash install.sh这样执行</span><br></pre></td></tr></table></figure>
-<p>选择lamp+pureftp+phpmyadmin编译并且安装<br>安装过程如下：<br><a href="https://www.lidongspace.cn/admin/oneinstack_install" target="_blank" rel="noopener"><img src="https://static.oneinstack.com/images/install_oneinstack.png" alt="img"></a><br>MySQL 5.6以上<br>PHP 5.6以上<br>Apache 2.4</p>
-<h2 id="2、-编译"><a href="#2、-编译" class="headerlink" title="2、 编译"></a>2、 编译</h2><p>前面输入完以后就开始编译，编译在vps薄弱的性能下可能要半个小时以上，安装完之后他会告诉你的网站根目录，数据库等等设置。这时候我们WEB服务器和FTP服务器就已经装完了，接下来增加ftp用户并且将博客系统放入网站根目录就完成了。</p>
-<h2 id="3、-增加ftp用户"><a href="#3、-增加ftp用户" class="headerlink" title="3、 增加ftp用户"></a>3、 增加ftp用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#进入oneinstack目录cd oneinstack#运行pureftpd_vhost.sh脚本./pureftpd_vhost.sh</span><br></pre></td></tr></table></figure>
-<p>然后按照下面图片所示增加<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/2076471233.png?raw=true" alt="QQ截图20170908113705.png"><br>对ftp用户权限的设置就是对文件夹设置<br>用root或者其他用户创建一个文件夹<br>然后更改这个文件夹权限为<strong>755（只读）</strong><br>这时候我们ftp用户目录设置在这个文件夹<br>他就只有只读权限，不能删除上传。<br>如果我们把这个文件夹权限改为<strong>766或者777（读/写）</strong><br>那么他就可读可写的权限都有了<br>更改权限可直接用第三方ftp软件修改就好了，也可以在ssh里面修改。<br><code>chmod -R 755 dir</code><br>dir可以是绝对路径也可以是相对路径</p>
-<h2 id="4、-增加一个域名vhost（可选）"><a href="#4、-增加一个域名vhost（可选）" class="headerlink" title="4、 增加一个域名vhost（可选）"></a>4、 增加一个域名vhost（可选）</h2><p>也是在oneinstack目录<br><code>./vhost.sh</code><br>如下图所示安装<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/3463793438.png?raw=true" alt="QQ截图20170908115059.png"><br>然后做dns解析我们的域名到我们这台服务器<br>设置好了之后我们就能把我们博客系统放到这个域名目录下，如果你已经做好了dns解析，输入你的域名应该就能看到了，可以考虑一下上一下https，能改加密网站的安全。<br>比如我的网站ssl加密效果如下：<br><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.lidongspace.cn" target="_blank" rel="noopener">检查链接</a></p>
-<h2 id="5、-上传博客系统"><a href="#5、-上传博客系统" class="headerlink" title="5、 上传博客系统"></a>5、 上传博客系统</h2><blockquote>
-<p>已经有很多优秀的博客系统啦，像什么wordpress，hexo，typecho，我们就不要自己造轮子了，直接用别人的优秀成果更好。自己弄费力不讨好。</p>
-</blockquote>
-<p>下载博客系统如<a href="http://typecho.org/download" target="_blank" rel="noopener">typecho</a>解压之后用ftp上传到网站根目录.<br>你如果是默认设置，没有添加域名的话就解压到/data/wwwroot/default文件夹内。<br>如果你添加了域名，就把博客系统上传到/data/wwwroot/<a href="http://www.lidongspace.cn" target="_blank" rel="noopener">www.lidongspace.cn</a> 目录下<br>注意：如果你是用其他用户的ftp或sftp上传的，记得更改文件的用户，用以下的命令。<br><code>chown -R www:www /data/wwwroot/default</code>自己注意更改目录</p>
-<h2 id="6、-配置数据库连接"><a href="#6、-配置数据库连接" class="headerlink" title="6、 配置数据库连接"></a>6、 配置数据库连接</h2><p>输入 http:ip 或者 你的网站域名<a href="https://www.lidongspace.cn/" target="_blank" rel="noopener">你的网站域名</a> 进入安装设置<br>先到phpMyAdmin里创建一个新的数据库。<br>先点击用户，再点击增加用户。然后按下图配置。<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/3882090967.png?raw=true" alt="2017-09-08 11-04-59屏幕截图.png"><br>你在网站安装是填入你的数据库用户名，密码，数据库名就可以安装完成了<br>安装完成界面如下：<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/3919917148.png?raw=true" alt="QQ截图20170908132633.png"></p>
-<h1 id="三-邮箱系统配置"><a href="#三-邮箱系统配置" class="headerlink" title="三 邮箱系统配置"></a>三 邮箱系统配置</h1><h2 id="1、-解析域名"><a href="#1、-解析域名" class="headerlink" title="1、 解析域名"></a>1、 解析域名</h2><p>我是用域名做了一个A解析<br>A mail 123.207.233.97<br>还有一个MX记录<br>MX记录 @ mail.lidongspace.cn<br>PS:发现腾讯云无法设置PTR记录，必须联系客服而且要求是他的VIP客户才能够设置，幸运的是，25端口是开放的，我们可以用smtp服务直接发送，不过由于没有设置PTR很容易进别人邮箱系统的垃圾桶，多次发送之后直接被拒收。因为再过几天他就要关闭25号端口，赶着这个时间差完成了这个作业。</p>
-<h2 id="2、-安装Postfix"><a href="#2、-安装Postfix" class="headerlink" title="2、 安装Postfix"></a>2、 安装Postfix</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get updatesudo apt-get install postfix -y</span><br></pre></td></tr></table></figure>
-<p>安装过程中会让你选择一种Postfix配置类型。一般情况下，我们需要选择第二种类型：<strong>Internet Site</strong>。</p>
-<p><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/2471366395.png?raw=true" alt="QQ截图20170908133822.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No configuration 表示不要做任何配置；Internet Site 表示直接使用本地SMTP服务器发送和接收邮件；Internet with smarthost 表示使用本地SMTP服务器接收邮件，但发送邮件时不直接使用本地SMTP服务器，而是使用第三方smart host来转发邮件；Satellite system 表示邮件的发送和接收都是由第三方smarthost来完成。Local only 表示邮件只能在本机用户之间发送和接收</span><br></pre></td></tr></table></figure>
-<p>在第二个页面System mail name中填入域名，也就是邮箱地址@符号后面的域名，比如，我的邮箱地址是<a href="mailto:lee@lidongspace.cn">lee@lidongspace.cn</a>，所以我填的是lidongspace.cn。当发件人的域名地址没有指定时，Postfix会自动将这个域名添加到发件人的地址中。</p>
-<p>使用netstat来查看Postfix的监听情况：<br><code>sudo netstat -lnpt</code></p>
-<h2 id="3、-发送测试邮件"><a href="#3、-发送测试邮件" class="headerlink" title="3、 发送测试邮件"></a>3、 发送测试邮件</h2><p><code>echo &quot;test email&quot; | sendmailfantasylidong@gmail.com</code><br>如下图所示<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/1312281520.png?raw=true" alt="20170907191816.png"><br>不久之后,我在我的gmail上发现我的邮件，但是在垃圾箱中，果然，没有PTR记录的自搭邮件系统很难被其他邮箱接收。收到的截图如下。<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/3266032538.png?raw=true" alt="QQ截图20170908135032.png"></p>
-<h1 id="四、-总结"><a href="#四、-总结" class="headerlink" title="四、 总结"></a>四、 总结</h1><p>这一次我使用了Markdown语法来写这篇文章，写的有点糟，希望老师将就着先看看，以前的网站备份丢了，后面我就直接用Google blugger写博客了，知道这次作业才从新开始用自己博客写东西。<br>ftp服务器和web服务器我很早就做过了，就没有一步步安装了，直接用了别人整合好的一部安装包了，就是邮件系统倒是第一次安装，本来想用别人的邮件系统然后运用别人的smtp服务来完成自己的邮箱搭建，那样被拒收的可能性会低很多，后来想了想还是直接用Postfix算了，至少体验一下自己域名服务器的完全掌控的感觉~<br>最后，我发现国内的IDC真的不行，什么都要实名注册，而且很多服务都要VIP客户才能够使用，比如反向dns解析PTR就不能自己弄，必须要发工单，还得是VIP客户才能够使用！</p>
-
           
+作业我做了本地版本和服务器两个版本,因为电脑没有公网ip,所以我还是比较喜欢用服务器.服务器Linux版本:Debian9电脑Linux版本:Linux Mint18.2
+
+一 远程ssh设置1 安装安装openssh-server,这一步服务器和电脑都是相同的步骤,因为这两个发行版安装软件的方式
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/24/计算机网络作业-一/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -925,117 +867,16 @@ mysql &gt; mysql -h myhost -u root -p database &lt; sql.txt
       
         
           
-            <blockquote>
-<p>本文基于<em>google-drive-ocamlfuse</em>Github项目完成，目标在于安装web版aria2，并将下载目录设置成Google硬盘达到离线下载的目的~无限的Google硬盘到淘宝买，并不算贵，所以你如果按教程做好之后，就等于挂载了一个无限容量的Google硬盘，爽到。本文基于给了root权限的vps，系统环境：Ubuntu<br>16.04 x64</p>
-</blockquote>
-<h2 id="一、选择vps服务器"><a href="#一、选择vps服务器" class="headerlink" title="一、选择vps服务器"></a>一、选择vps服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Digitalocean是一款性价比不错的服务器提供商，而且流量计费不准确，基本等于无限流量，这就非常适合我们搭建离线下载网盘，而且Github学生包还有50刀的促销券，如果你有国内大学邮箱，并且在读十分有可能拿到这张优惠券，比如博主我~。  下面是链接：[Digitalocean][1]</span><br></pre></td></tr></table></figure>
-<h2 id="二、创建服务器"><a href="#二、创建服务器" class="headerlink" title="二、创建服务器"></a>二、创建服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">建议选择Ubuntu 16.04，国内电信选择美国旧金山节点，移动联通选择新加坡节点，不过作为网盘建议用美国的节点，下载速度会更快一点。创建完成后连接使用就是了，DO的密码是发送到你的注册邮箱的哦。</span><br></pre></td></tr></table></figure>
-<h2 id="三、安装google-drive-ocamlfuse"><a href="#三、安装google-drive-ocamlfuse" class="headerlink" title="三、安装google-drive-ocamlfuse"></a>三、安装google-drive-ocamlfuse</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:alessandro-strada/ppasudo apt-get updatesudo apt-get install google-drive-ocamlfuse</span><br></pre></td></tr></table></figure>
-<h2 id="四、创建Google-API"><a href="#四、创建Google-API" class="headerlink" title="四、创建Google API"></a>四、创建Google API</h2><p>1.进入<a href="https://console.developers.google.com/apis" target="_blank" rel="noopener">Google API</a>管理页面</p>
-<p><a href="https://4.bp.blogspot.com/-iFrsO0ebGQo/WZukguGPNII/AAAAAAAAAKI/NXmK6obnwtw2ER51uYEaoCpe7aj_X0M_wCLcBGAs/s1600/QQ%25E5%259B%25BE%25E7%2589%258720170822112539.png" target="_blank" rel="noopener"><img src="https://4.bp.blogspot.com/-iFrsO0ebGQo/WZukguGPNII/AAAAAAAAAKI/NXmK6obnwtw2ER51uYEaoCpe7aj_X0M_wCLcBGAs/s320/QQ%25E5%259B%25BE%25E7%2589%258720170822112539.png" alt="img"></a></p>
-<p>2.创建工程</p>
-<p>3.创建凭据</p>
-<p>   首次申请需要填写“OAuth同意屏幕”</p>
-<p><a href="https://s4.51cto.com/wyfs02/M00/99/93/wKioL1lJ586C8myGAACugMedcNk532.png" target="_blank" rel="noopener"><img src="https://s4.51cto.com/wyfs02/M00/99/93/wKioL1lJ586C8myGAACugMedcNk532.png" alt="wKioL1lJ586C8myGAACugMedcNk532.png"></a></p>
-<p><a href="https://s1.51cto.com/wyfs02/M01/99/93/wKiom1lJ58_T6fXuAADya4LrsHs456.png" target="_blank" rel="noopener"><img src="https://s1.51cto.com/wyfs02/M01/99/93/wKiom1lJ58_T6fXuAADya4LrsHs456.png" alt="wKiom1lJ58_T6fXuAADya4LrsHs456.png"></a></p>
-<p><a href="https://s1.51cto.com/wyfs02/M01/99/93/wKioL1lJ58-jf4YXAAB8wlfSn_c824.png" target="_blank" rel="noopener"><img src="https://s1.51cto.com/wyfs02/M01/99/93/wKioL1lJ58-jf4YXAAB8wlfSn_c824.png" alt="wKioL1lJ58-jf4YXAAB8wlfSn_c824.png"></a></p>
-<p><a href="https://s3.51cto.com/wyfs02/M02/99/93/wKiom1lJ59DBnmP0AABWZzaR6C4838.png" target="_blank" rel="noopener"><img src="https://s3.51cto.com/wyfs02/M02/99/93/wKiom1lJ59DBnmP0AABWZzaR6C4838.png" alt="wKiom1lJ59DBnmP0AABWZzaR6C4838.png"></a></p>
-<p><a href="https://s3.51cto.com/wyfs02/M02/99/93/wKioL1lJ59DQyJIBAACxxswK0vU587.png" target="_blank" rel="noopener"><img src="https://s3.51cto.com/wyfs02/M02/99/93/wKioL1lJ59DQyJIBAACxxswK0vU587.png" alt="wKioL1lJ59DQyJIBAACxxswK0vU587.png"></a></p>
-<p>这个就是密钥，一会要用到。</p>
-<p><a href="https://s5.51cto.com/wyfs02/M01/99/93/wKioL1lJ59GhyfUaAACE5LD4ZUY283.png" target="_blank" rel="noopener"><img src="https://s5.51cto.com/wyfs02/M01/99/93/wKioL1lJ59GhyfUaAACE5LD4ZUY283.png" alt="wKioL1lJ59GhyfUaAACE5LD4ZUY283.png"></a></p>
-<p>4.授权</p>
-<p> 在服务器上输入google-drive-ocamlfuse -debug -headless -id 你的客户端ID -secret 你的客户端密钥。运行命令之后会出现一个url让你访问，获得验证码。如下图所示：</p>
-<p><a href="https://3.bp.blogspot.com/-FWTLmzoSQbY/WZumdw_2qiI/AAAAAAAAAKg/TA3iMirrweU-wxZW4dcuaV3YYafnTmmtgCLcBGAs/s1600/QQ%25E6%2588%25AA%25E5%259B%25BE20170822113407.png" target="_blank" rel="noopener"><img src="https://3.bp.blogspot.com/-FWTLmzoSQbY/WZumdw_2qiI/AAAAAAAAAKg/TA3iMirrweU-wxZW4dcuaV3YYafnTmmtgCLcBGAs/s320/QQ%25E6%2588%25AA%25E5%259B%25BE20170822113407.png" alt="img"></a></p>
-<p>从https开始到force结束，在浏览器打开获得验证码，然后输入在授权栏中</p>
-<p>5.填写config</p>
-<p><code>cd .gdfuse/default</code></p>
-<p><code>vi</code> <code>config</code></p>
-<p>在</p>
-<p><a href="https://3.bp.blogspot.com/-NxSkGLo1Iqs/WZunK4lWQ2I/AAAAAAAAAKo/QqxwC9-5g4YZmtB0eH3_kIR5fgH4I6VJgCLcBGAs/s1600/QQ%25E5%259B%25BE%25E7%2589%258720170822113705.png" target="_blank" rel="noopener"><img src="https://3.bp.blogspot.com/-NxSkGLo1Iqs/WZunK4lWQ2I/AAAAAAAAAKo/QqxwC9-5g4YZmtB0eH3_kIR5fgH4I6VJgCLcBGAs/s1600/QQ%25E5%259B%25BE%25E7%2589%258720170822113705.png" alt="img"></a></p>
-<p>填写你的客户端ID和密钥，在最后一行</p>
-<p>verification_code那里写上你在浏览器里得到的验证码。</p>
-<h2 id="五、挂载"><a href="#五、挂载" class="headerlink" title="五、挂载"></a>五、挂载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/googledrive //创建文件夹google-drive-ocamlfuse ~/googledrive //挂载硬盘到挂载点</span><br></pre></td></tr></table></figure>
-<p>用df -h查看是不是挂载成功，挂载成功如下：<br><img src="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2017/09/594575728.png?raw=true" alt="2.png"></p>
-<p>六、安装Aria2和web界面<br>(以下为转载逗逼根据地的Aria2文章，这为原文链接)</p>
-<p>简单介绍</p>
-<p>Aria2是一个命令行下运行、多协议、多来源下载工具，支持磁力链接、BT种子、HTTP、FTP等下载协议，当然因为它是命令行下载工具，所以我们想下载一个东西还需要去敲命令自然是不方便，于是就有一些人根据Aria2的API开发了一些在线管理面板，可以直接在网页上面添加管理任务。<br>本教程介绍的是 AriaNg，Github项目：<a href="https://github.com/mayswind/AriaNg" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg</a><br>Aria2是一个后端(服务端)的程序，而 AriaNg是一个前端(HTML+JS静态)控制面板，不需要和 Aria2(后端/服务端)放在一个服务器或者设备中，你甚至可以只在服务器上面搭建Aria2后端，然后访问别人建好的 AriaNg前端面板，也可以远程操作Aria2后端！</p>
-<p>安装 Aria2(后端/服务端)</p>
-<p>一键脚本安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://softs.fun/Bash/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></table></figure>
-<h1 id="如果上面这个脚本无法下载，尝试使用备用下载："><a href="#如果上面这个脚本无法下载，尝试使用备用下载：" class="headerlink" title="如果上面这个脚本无法下载，尝试使用备用下载："></a>如果上面这个脚本无法下载，尝试使用备用下载：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></table></figure>
-<p>默认我已经配置好了 Aria2的配置文件，如果你想要修改，那么你可以输入 nano /root/.aria2/aria2.conf 或者 把这个文件下载到本地修改（有中文注释，# 井号是注释的，不懂的参数不要乱动，默认就好），修改完成后按住Ctrl + x保存文件。<br>主要就是下面这两个选项：下载目录(dir)、RPC监听端口(rpc-listen-port)、RPC令牌(rpc-secret)，默认是下面这样：<br>下载目录：dir=/usr/local/caddy/www/aria2/Download(请改为/root/google<br>RPC监听端口：rpc-listen-port=6800 (默认#注释)<br>RPC令牌：rpc-secret=doub.io (如果不需要，则修改配置文件在参数前面加上 # 注释即可)<br>RPC令牌就相当于 Aria2(后端/服务端)远程API连接的授权密码，默认是开启的PRC令牌是 doub.io<br>正式使用建议更改 PRC监听端口和令牌 ，避免安全隐患！</p>
-<p>Aria2(后端/服务端) 使用方法</p>
-<p>安装 AriaNg(前端/HTML+JS)</p>
-<p>Github项目：<a href="https://github.com/mayswind/AriaNg" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg</a><br>下载地址：<a href="https://github.com/mayswind/AriaNg/releases/latest" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg/releases/latest</a><br>AriaNg是一个前端(HTML+JS静态)控制面板，不需要和 Aria2(后端/服务端)放在一个服务器或者设备中，你甚至可以只在服务器上面搭建Aria2后端，然后访问别人建好的 AriaNg前端面板，也可以远程操作Aria2后端！<br>AriaNg官方演示页面：<a href="http://ariang.mayswind.net/" target="_blank" rel="noopener">http://ariang.mayswind.net/</a></p>
-<p>AriaNg是一个 HTML+JS 纯静态一个Aria2的Web面板，所以不需要编译任何环境。<br>AriaNg的前端面板可以放在你本地电脑上面，下载解压后后直接用浏览器打开 index.html 文件就能使用了。<br>服务器安装</p>
-<p>在本地安装 AriaNg的话，只能局域网内访问，想要其他地方访问，还是要在服务器上面安装HTTP服务器。<br>这里安装 Caddy 一个很简单的HTTP服务器，如果你想要使用Nginx/Apache或者LNMP一键包之类的，使用方法自行谷歌。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://softs.fun/Bash/caddy_install.sh &amp;&amp; chmod +x caddy_install.sh &amp;&amp; bash caddy_install.sh install http.filemanager</span><br></pre></td></tr></table></figure>
-<h1 id="如果上面这个脚本无法下载，尝试使用备用下载：-1"><a href="#如果上面这个脚本无法下载，尝试使用备用下载：-1" class="headerlink" title="如果上面这个脚本无法下载，尝试使用备用下载："></a>如果上面这个脚本无法下载，尝试使用备用下载：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate  https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh &amp;&amp; chmod +x  caddy_install.sh &amp;&amp; bash caddy_install.sh install http.filemanager</span><br></pre></td></tr></table></figure>
-<p>安装Caddy成功后，继续新建一个虚拟主机文件夹，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/caddy/www &amp;&amp; mkdir /usr/local/caddy/www/aria2</span><br></pre></td></tr></table></figure>
-<p>写入配置到 Caddy 配置文件，注意下面这五行要一起复制粘贴，不是一行一行复制！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;:80 &#123; root /usr/local/caddy/www/aria2 timeouts none gzip browse&#125;&quot; &gt; /usr/local/caddy/Caddyfile</span><br></pre></td></tr></table></figure>
-<p>安装 AriaNg</p>
-<h1 id="新建Aria2下载文件夹-并进入文件夹"><a href="#新建Aria2下载文件夹-并进入文件夹" class="headerlink" title="新建Aria2下载文件夹 并进入文件夹"></a>新建Aria2下载文件夹 并进入文件夹</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/caddy/www/aria2/Download &amp;&amp; cd /usr/local/caddy/www/aria2</span><br></pre></td></tr></table></figure>
-<h1 id="下载并解压-AriaNg-文件，这段代码会自动检测并下载最新版本"><a href="#下载并解压-AriaNg-文件，这段代码会自动检测并下载最新版本" class="headerlink" title="下载并解压 AriaNg 文件，这段代码会自动检测并下载最新版本"></a>下载并解压 AriaNg 文件，这段代码会自动检测并下载最新版本</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ver=$(curl -m 10 -s &quot;https://github.com/mayswind/AriaNg/releases/latest&quot;|sed -r &apos;s/.*tag\/(.+)\&quot;&gt;redirected.*/\1/&apos;)</span><br></pre></td></tr></table></figure>
-<h1 id="如果上面自动检测最新版本的代码返回空白或者错误，那么请访问"><a href="#如果上面自动检测最新版本的代码返回空白或者错误，那么请访问" class="headerlink" title="如果上面自动检测最新版本的代码返回空白或者错误，那么请访问"></a>如果上面自动检测最新版本的代码返回空白或者错误，那么请访问</h1><p><a href="https://github.com/mayswind/AriaNg/releases/latest" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg/releases/latest</a> 来查看最新版本号。</p>
-<h1 id="例如手动获取的版本号是-0-1-0，那么手动执行命令：-Ver-”0-1-0”-，然后继续下面步骤即可。"><a href="#例如手动获取的版本号是-0-1-0，那么手动执行命令：-Ver-”0-1-0”-，然后继续下面步骤即可。" class="headerlink" title="例如手动获取的版本号是 0.1.0，那么手动执行命令： Ver=”0.1.0” ，然后继续下面步骤即可。"></a>例如手动获取的版本号是 0.1.0，那么手动执行命令： Ver=”0.1.0” ，然后继续下面步骤即可。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate &quot;https://github.com/mayswind/AriaNg/releases/download/$&#123;Ver&#125;/aria-ng-$&#123;Ver&#125;.zip&quot; &amp;&amp; unzip aria-ng-$&#123;Ver&#125;.zip &amp;&amp; rm -rf aria-ng-$&#123;Ver&#125;.zip</span><br></pre></td></tr></table></figure>
-<h1 id="赋予虚拟主机文件夹权限"><a href="#赋予虚拟主机文件夹权限" class="headerlink" title="赋予虚拟主机文件夹权限"></a>赋予虚拟主机文件夹权限</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 755 /usr/local/caddy/www/aria2</span><br></pre></td></tr></table></figure>
-<p>上面代码都执行完后，就可以启动 Caddy了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service caddy start</span><br></pre></td></tr></table></figure>
-<p>如果Caddy 运行正常，那么你打开 <a href="http://vps_ip/" target="_blank" rel="noopener">http://vps_ip</a> 即可看到 AriaNg的页面了。<br>绑定域名</p>
-<p>现在，AiraNg已经可以通过IP访问了，但是只通过IP访问，不好记，如果你想要用域名的话，这样改：</p>
-<h1 id="重新写入配置到-Caddy-配置文件，注意下面这五行要一起复制粘贴！toyoo-ml-改成你自己的域名，然后去域名托管商解析你的域名即可"><a href="#重新写入配置到-Caddy-配置文件，注意下面这五行要一起复制粘贴！toyoo-ml-改成你自己的域名，然后去域名托管商解析你的域名即可" class="headerlink" title="重新写入配置到 Caddy 配置文件，注意下面这五行要一起复制粘贴！toyoo.ml 改成你自己的域名，然后去域名托管商解析你的域名即可"></a>重新写入配置到 Caddy 配置文件，注意下面这五行要一起复制粘贴！toyoo.ml 改成你自己的域名，然后去域名托管商解析你的域名即可</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;http://toyoo.ml &#123;  root /usr/local/caddy/www/aria2  timeouts none  gzip  browse&#125;&quot; &gt; /usr/local/caddy/Caddyfile</span><br></pre></td></tr></table></figure>
-<p>上面代码执行完毕后，重启Caddy即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service caddy restart</span><br></pre></td></tr></table></figure>
-<p>启动成功后，尝试访问 <a href="http://xn--eqrt2g/" target="_blank" rel="noopener">http://域名</a> ，看一看是否成功。<br>Caddy 使用方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">启动：service caddy start停止：service caddy stop重启：service caddy restart查看状态：service caddy statusCaddy 配置文件：/usr/local/caddy/CaddyfileCaddy 虚拟主机：/usr/local/caddy/wwwAriaNg 虚拟主机文件夹：/usr/local/caddy/www/aria2AriaNg 下载文件夹：/usr/local/caddy/www/aria2/Download</span><br></pre></td></tr></table></figure>
-<h2 id="配置-AriaNg"><a href="#配置-AriaNg" class="headerlink" title="配置 AriaNg"></a>配置 AriaNg</h2><p>进入AriaNg的网页后，默认是英文语言，你可以 点击左侧选项菜单 —— AriaNg Setting ，然后在新页面中 Language选项选择 简体中文，然后刷新页面后即可生效。<br>如果你的 Aria2(后端/服务端)还没有运行，请先根据 Aria2使用说明 启动 Aria2(后端/服务端)。<br>依然是 左侧选项菜单 —— AriaNg 设置 —— RPC —— 依次输入/选择下图各选项。<br>Aria2 RPC 主机：就是填写你 安装Aria2(后端/服务端)的服务器IP 或者 域名。<br>Aria2 RPC 端口：默认 6800 。<br>Aria2 RPC 协议：选择 http ，如果你配置了https，那么就选择https。<br>Aria2 RPC 密匙：输入你的RPC密匙(令牌)，如果你安装后没有修改配置文件中的RPC密匙(令牌)，那么你这里需要填写 doub.io 。<br>强烈建议打开 RPC密匙(令牌)来保证安全性。<br>设置完毕后，刷新页面即可生效。<br>正常情况下，右上角会提示 连接成功，点击左侧选项菜单 —— Aria2 状态，即可看到当前 AriaNg 前端面板连接到的 Aria2(后端/服务端)的信息。</p>
-<h2 id="在线下载-观看"><a href="#在线下载-观看" class="headerlink" title="在线下载/观看"></a>在线下载/观看</h2><p>我发现这个 AriaNg前端面板，下载文件后不会显示 HTTP文件下载链接，这个很蛋疼，这是我感觉这个前端面板 唯一一点不完美的地方。<br>可以手动拼接来 获得HTTP下载链接，例如我下载了一个名为 100MB.bin 的文件<br>那么我只要这样拼接 <a href="http://toyoo.ml/Download/100MB.bin" target="_blank" rel="noopener">http://toyoo.ml/Download/100MB.bin</a> 即可下载文件了，mp4格式的视频也可以这样在线观看。<br>我已经在Github上面反馈这个问题了，作者听了很感动，然后把我禁言了…<br>好吧，为了满足你们的需求，我就另想了一个办法，比手动拼接要方便一些。<br>上面安装 Caddy的时候，就已经配置了目录列表功能，所以可以通过 <a href="http://ip/Download" target="_blank" rel="noopener">http://ip/Download</a> 来访问以显示 Download 文件夹里面的所有文件了！</p>
-<h2 id="实现网盘式操作"><a href="#实现网盘式操作" class="headerlink" title="实现网盘式操作"></a>实现网盘式操作</h2><p>Caddy自带的目录列表功能很简陋，不能 新建/重命名/移动/删除 文件/文件夹等操作，所以可以使用 Caddy的 FileManager 扩展。<br>参考使用方法看这里。<br>注意：2017/03/23 17:50 之前通过本教程安装的Caddy，皆没有这个扩展，需要卸载重装！<br>注意事项</p>
-<p>AriaNg前端面板并不会保存任何设置，所有设置都是 从 Aria2(后端/服务端)的启动参数或者配置文件中获取的。<br>启动显示成功，但是实际未运行</p>
-<p>因为 服务脚本判断的问题，只判断了nohub是否运行 Caddy成功，但没有判断 Caddy 是否保持正常运行。<br>你可以理解为，nohub成功启动了 Caddy，但是 Caddy因为配置文件错误等原因，启动后又退出了。<br>所以这种情况下，你应该去查看启动日志：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /tmp/caddy.log</span><br></pre></td></tr></table></figure>
-<p>Caddy启动失败，打开 <a href="http://ip/" target="_blank" rel="noopener">http://ip</a> 显示的是 It works !</p>
-<p>一些系统会自带 apache2 ，而 apache2 会占用80端口，导致Caddy无法绑定端口，所以只要关掉就好了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lntp</span><br></pre></td></tr></table></figure>
-<h1 id="我们可以通过这个命令查看是不是被其他软件占用了-80-端口。"><a href="#我们可以通过这个命令查看是不是被其他软件占用了-80-端口。" class="headerlink" title="我们可以通过这个命令查看是不是被其他软件占用了 80 端口。"></a>我们可以通过这个命令查看是不是被其他软件占用了 80 端口。</h1><p>不过 apache2 会默认开机自启动，如果不需要可以关闭自启动或者卸载 apache2 。<br>停止 Apache2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service apache2 stop</span><br></pre></td></tr></table></figure>
-<h1 id="尝试使用上面这个关闭，如果没效果或者提示什么错误无法关闭，那就用下面这个强行关闭进程。"><a href="#尝试使用上面这个关闭，如果没效果或者提示什么错误无法关闭，那就用下面这个强行关闭进程。" class="headerlink" title="尝试使用上面这个关闭，如果没效果或者提示什么错误无法关闭，那就用下面这个强行关闭进程。"></a>尝试使用上面这个关闭，如果没效果或者提示什么错误无法关闭，那就用下面这个强行关闭进程。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 $(ps -ef|grep &quot;apache2&quot;|grep -v &quot;grep&quot;|awk &apos;&#123;print $2&#125;&apos;)</span><br></pre></td></tr></table></figure>
-<p>取消开机自启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-rc.d -f apache2 remove</span><br></pre></td></tr></table></figure>
-<p>卸载 Apache2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get remove --purge apache2</span><br></pre></td></tr></table></figure>
-<p>关闭 Apache2后，就可以尝试启动 Caddy ，并试试能不能打开网页。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service caddy start</span><br></pre></td></tr></table></figure>
-<h2 id="Aria2-后端-服务端-启动成功，但是-AriaNg-无法连接"><a href="#Aria2-后端-服务端-启动成功，但是-AriaNg-无法连接" class="headerlink" title="Aria2(后端/服务端)启动成功，但是 AriaNg 无法连接"></a>Aria2(后端/服务端)启动成功，但是 AriaNg 无法连接</h2><p>这个可能是防火墙的问题，开放防火墙端口即可。<br>需要开放两个端口，一个是RPC监听端口 6800(默认)，一个是BT监听端口 51413(默认)。<br>不清楚端口的话，可以打开配置文件去看 vi /root/.aria2/aria2.conf ，或者查看本地端口监听情况 netstat -lntp 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 端口 -j ACCEPTiptables -I INPUT -m state --state NEW -m udp -p udp --dport 端口 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h1 id="删除防火墙规则，内容一样把-I-换成-D-就行了："><a href="#删除防火墙规则，内容一样把-I-换成-D-就行了：" class="headerlink" title="删除防火墙规则，内容一样把 -I 换成 -D 就行了："></a>删除防火墙规则，内容一样把 -I 换成 -D 就行了：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -D INPUT -m state --state NEW -m tcp -p tcp --dport 端口 -j ACCEPTiptables -D INPUT -m state --state NEW -m udp -p udp --dport 端口 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h2 id="关于版权问题，大部分地区是禁止下载BT和盗版文件的"><a href="#关于版权问题，大部分地区是禁止下载BT和盗版文件的" class="headerlink" title="关于版权问题，大部分地区是禁止下载BT和盗版文件的"></a>关于版权问题，大部分地区是禁止下载BT和盗版文件的</h2><p>大部分IDC都是对版权文件敏感，特别是美国的VPS，当你下载BT和磁力链接文件的时候，很有可能会被封VPS。<br>所以请自行选择 版权文件不敏感的 瑞典 乌克兰 俄罗斯 罗马尼亚 地区的IDC的VPS。</p>
-<p>另一个同样也是很简洁的 Aria2管理面板：<a href="https://github.com/NemoAlex/glutton%EF%BC%88%E5%A6%82%E6%9E%9C%E4%BD%A0%E4%BB%AC%E9%9C%80%E8%A6%81%E6%88%91%E5%8F%AF%E4%BB%A5%E6%8A%8A%E8%BF%99%E4%B8%AA%E7%9A%84%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%E5%8A%A0%E4%B8%8A%EF%BC%89" target="_blank" rel="noopener">https://github.com/NemoAlex/glutton（如果你们需要我可以把这个的安装步骤加上）</a><br>PS：这种方法会比直接下载到硬盘再上传会慢，但是不需要消耗硬盘空间，可以做无限下载<br>服务器，再也不用担心下载容量不足，如果你觉的这个方法上传比较慢，这里还有个方法，<br>不过会占用vps硬盘空间，但是上传速度非常快，我会把我的脚本贴下来，并且告诉你们怎么用</p>
-<h1 id="方法2：Gdrive"><a href="#方法2：Gdrive" class="headerlink" title="方法2：Gdrive"></a>方法2：Gdrive</h1><p>此处参考github项目gdrive的wiki<br>第一步，下载对应架构的gdrive包，如果你是和我一样的系统，命令如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O gd &quot;https://docs.google.com/uc?id=0B3X9GlR6EmbnQ0FtZmJJUXEyRTA&amp;export=download&quot;</span><br></pre></td></tr></table></figure>
-<p>然后赋予我们刚才下载的文件可执行的权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x gd</span><br></pre></td></tr></table></figure>
-<p>现在我们就可以开始登陆我们的Google账号了</p>
-<p>./gd about</p>
-<p>运行完命令之后出来一串网页url，复制打开（要F墙）<br>然后复制到终端上，大功告成，他会显示token access success，就可以了。</p>
-<p>然后在Google云盘上新建一个空的文件夹来做同步文件夹<br>然后在我们下载gd的目录那里输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gd list</span><br></pre></td></tr></table></figure>
-<p>找到你刚才创建的文件夹id，复制</p>
-<p>下载我的up.sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fantasylidong/gdrive_dw/blob/master/up.shchmod +x up.sh</span><br></pre></td></tr></table></figure>
-<p>进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano up.sh</span><br></pre></td></tr></table></figure>
-<p>把</p>
-<p><a href="https://2.bp.blogspot.com/-lmZ-w44cyKA/WZz0T4Y-mEI/AAAAAAAAASI/hkBjhcNwL0cnCjSiNlurd5ijl1PRkK9fQCLcBGAs/s1600/QQ%25E5%259B%25BE%25E7%2589%258720170823111739.png" target="_blank" rel="noopener"><img src="https://2.bp.blogspot.com/-lmZ-w44cyKA/WZz0T4Y-mEI/AAAAAAAAASI/hkBjhcNwL0cnCjSiNlurd5ijl1PRkK9fQCLcBGAs/s320/QQ%25E5%259B%25BE%25E7%2589%258720170823111739.png" alt="img"></a></p>
-<p>现在你可以做计划任务，也可以不做，不做的话就要自己手动操作，做的话就能实现自动同步功能，但是有一点不好，如果你做了计划任务，如果有文件在下载，他就会把没下载完也传上去，由于gdrive不支持断点续传，所以就会很麻烦。建不建立你自己选择。</p>
-<p>计划任务设置<br>crontab -e<br>然后选择nano作为编辑器<br>移动到最下面一行<br>参考这个博客的写法</p>
-<p>例如：0 8 * root ./root/up.sh的意思就是在8点钟运行root目录下的up.sh脚本<br>你根据你自己的需求来写</p>
-<p>总结<br>vps和Google无限量硬盘玩法有很多，而且国外的vps上传下载都很快，用来做种也非常不错。</p>
-<p>全文END</p>
-
           
+本文基于google-drive-ocamlfuseGithub项目完成，目标在于安装web版aria2，并将下载目录设置成Google硬盘达到离线下载的目的~无限的Google硬盘到淘宝买，并不算贵，所以你如果按教程做好之后，就等于挂载了一个无限容量的Google硬盘，爽到。本文基于给了root
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/24/Google硬盘离线下载计划/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
