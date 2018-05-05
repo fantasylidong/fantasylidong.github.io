@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="实现了一个多线程的静态WEB服务器  WebServer‘’’Javaimport java.net.* ;   public final class MultiThreadWebServer {    public static void main(String argv[]) throws Exception {       ServerSocket socket = new ServerS">
+<meta name="description" content="实现了一个多线程的静态WEB服务器  WebServerimport java.net.* ;    public final class MultiThreadWebServer {   public static void main(String argv[]) throws Exception {        ServerSocket socket = new ServerSocket(">
 <meta name="keywords" content="Java WEB服务器 多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简单的Web服务器">
 <meta property="og:url" content="http://lidongspace.cn/2018/05/05/Java简单的Web服务器/index.html">
 <meta property="og:site_name" content="Lee&#39;s Blog">
-<meta property="og:description" content="实现了一个多线程的静态WEB服务器  WebServer‘’’Javaimport java.net.* ;   public final class MultiThreadWebServer {    public static void main(String argv[]) throws Exception {       ServerSocket socket = new ServerS">
+<meta property="og:description" content="实现了一个多线程的静态WEB服务器  WebServerimport java.net.* ;    public final class MultiThreadWebServer {   public static void main(String argv[]) throws Exception {        ServerSocket socket = new ServerSocket(">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2018/05/WebServer1.png?raw=true">
 <meta property="og:image" content="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2018/05/WebServer2.png?raw=true">
-<meta property="og:updated_time" content="2018-05-05T12:01:21.152Z">
+<meta property="og:updated_time" content="2018-05-05T12:11:50.232Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java简单的Web服务器">
-<meta name="twitter:description" content="实现了一个多线程的静态WEB服务器  WebServer‘’’Javaimport java.net.* ;   public final class MultiThreadWebServer {    public static void main(String argv[]) throws Exception {       ServerSocket socket = new ServerS">
+<meta name="twitter:description" content="实现了一个多线程的静态WEB服务器  WebServerimport java.net.* ;    public final class MultiThreadWebServer {   public static void main(String argv[]) throws Exception {        ServerSocket socket = new ServerSocket(">
 <meta name="twitter:image" content="https://github.com/fantasylidong/fantasylidong.github.io/blob/master/images/uploads/2018/05/WebServer1.png?raw=true">
 
 
@@ -316,7 +316,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  340
+                  338
                 </span>
               
 
@@ -356,9 +356,12 @@
         <blockquote>
 <p>实现了一个多线程的静态WEB服务器</p>
 </blockquote>
-<h1 id="WebServer"><a href="#WebServer" class="headerlink" title="WebServer"></a>WebServer</h1><p>‘’’Java<br>import java.net.* ;  </p>
-<p>public final class MultiThreadWebServer {<br>    public static void main(String argv[]) throws Exception {  </p>
-<pre><code>    ServerSocket socket = new ServerSocket(8900);  
+<h1 id="WebServer"><a href="#WebServer" class="headerlink" title="WebServer"></a>WebServer</h1><pre><code>import java.net.* ;  
+
+public final class MultiThreadWebServer {  
+public static void main(String argv[]) throws Exception {  
+
+    ServerSocket socket = new ServerSocket(8900);  
     while (true) {  
     // Listen for a TCP connection request.  
     Socket connection = socket.accept();  
@@ -370,10 +373,14 @@
     thread.start();  
     }  
 }  
-</code></pre><p>}<br>‘’’</p>
-<h1 id="HttpRequest-java"><a href="#HttpRequest-java" class="headerlink" title="HttpRequest.java"></a>HttpRequest.java</h1><p>‘’’Java<br>import java.io.<em> ;<br>import java.net.</em> ;<br>import java.util.* ;  </p>
-<p>final class HttpRequest implements Runnable {  </p>
-<pre><code>final static String CRLF = &quot;\r\n&quot;;  
+}  
+</code></pre><h1 id="HttpRequest-java"><a href="#HttpRequest-java" class="headerlink" title="HttpRequest.java"></a>HttpRequest.java</h1><pre><code>import java.io.* ;  
+import java.net.* ;  
+import java.util.* ;  
+
+final class HttpRequest implements Runnable {  
+
+final static String CRLF = &quot;\r\n&quot;;  
 Socket socket;  
 
 public HttpRequest(Socket socket) throws Exception {  

@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Lee&#39;s Blog">
 <meta property="og:description" content="先看几个概念：线程：进程中负责程序执行的执行单元。一个进程中至少有一个线程。   多线程：解决多任务同时执行的需求，合理使用CPU资源。多线程的运行是根据CPU切换完成，如何切换由CPU决定，因此多线程运行具有不确定性。   线程池：基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-05T11:11:48.525Z">
+<meta property="og:updated_time" content="2018-05-05T12:14:06.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池">
 <meta name="twitter:description" content="先看几个概念：线程：进程中负责程序执行的执行单元。一个进程中至少有一个线程。   多线程：解决多任务同时执行的需求，合理使用CPU资源。多线程的运行是根据CPU切换完成，如何切换由CPU决定，因此多线程运行具有不确定性。   线程池：基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归">
@@ -313,7 +313,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,685
+                  3,686
                 </span>
               
 
@@ -364,12 +364,19 @@
 </blockquote>
 <hr>
 <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>创建线程的两种方式</p>
-<h2 id="继承Thread类，扩展线程"><a href="#继承Thread类，扩展线程" class="headerlink" title="继承Thread类，扩展线程"></a>继承Thread类，扩展线程</h2><p>‘’’Java</p>
-<p>class DemoThread extends Thread {<br><br>    @Override<br>    public void run() {<br>        super.run();<br>        // Perform time-consuming operation…<br>    }<br>}<br><br>DemoThread t = new DemoThread();<br>t.start();</p>
+<h2 id="继承Thread类，扩展线程"><a href="#继承Thread类，扩展线程" class="headerlink" title="继承Thread类，扩展线程"></a>继承Thread类，扩展线程</h2><pre><code>class DemoThread extends Thread {
 
-<p>‘’’</p>
-<hr>
-<p>备注</p>
+@Override
+public void run() {
+    super.run();
+    // Perform time-consuming operation...
+}
+}
+
+DemoThread t = new DemoThread();
+t.start();}
+</code></pre><hr>
+<p><strong>备注</strong></p>
 <blockquote>
 <p><strong>线程和进程的区别</strong><br>一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
 </blockquote>
@@ -377,9 +384,9 @@
 <p><strong>Thread 类中的 start() 和 run() 方法有什么区别？</strong><br>调用 start() 方法才会启动新线程；如果直接调用 Thread 的 run() 方法，它的行为就会和普通的方法一样；为了在新的线程中执行我们的代码，必须使用 Thread.start() </p>
 </blockquote>
 <hr>
-<h2 id="实现Runnabke接口"><a href="#实现Runnabke接口" class="headerlink" title="实现Runnabke接口"></a>实现Runnabke接口</h2><p>‘’’Java</p>
-<p></p><p>public class DemoActivity extends BaseActivity implements Runnable {</p>
-<pre><code>@Override
+<h2 id="实现Runnabke接口"><a href="#实现Runnabke接口" class="headerlink" title="实现Runnabke接口"></a>实现Runnabke接口</h2><pre><code>public class DemoActivity extends BaseActivity implements Runnable {
+
+@Override
 public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -391,7 +398,8 @@ public void onCreate(Bundle savedInstanceState) {
 public void run() {
 
 }
-</code></pre><p>}<br></p><br>‘’’<br>学习笔记<p></p>
+}
+</code></pre><p>学习笔记</p>
 <blockquote>
 <p><strong>1）用 Runnable 还是 Thread ？</strong><br>我们都知道可以通过继承 Thread 类或者调用 Runnable 接口来实现线程，问题是，创建线程哪种方式更好呢？什么情况下使用它？这个问题很容易回答，如果你知道Java不支持类的多重继承，但允许你调用多个接口。所以如果你要继承其他类，当然是调用Runnable接口更好了。</p>
 </blockquote>
@@ -406,16 +414,39 @@ public void run() {
 <p> <strong>一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，等待着监督管理者分配可并发执行的任务。这避免了在处理短时间任务时创建与销毁线程的代价。线程池不仅能够保证内核的充分利用，还能防止过分调度。可用线程数量应该取决于可用的并发处理器、处理器内核、内存、网络sockets等的数量。 例如，线程数一般取cpu数量+2比较合适，线程数过多会导致额外的线程切换开销。</strong></p>
 <p> 线程池的优点<br>1）避免线程的创建和销毁带来的性能开销。<br>2）避免大量的线程间因互相抢占系统资源导致的阻塞现象。<br>3｝能够对线程进行简单的管理并提供定时执行、间隔执行等功能。</p>
 </blockquote>
-<h2 id="实现Runnable接口的Cache线程池"><a href="#实现Runnable接口的Cache线程池" class="headerlink" title="实现Runnable接口的Cache线程池"></a>实现Runnable接口的Cache线程池</h2><p><strong>Executor执行Runnable任务</strong><br>‘’’Java<br>import java.util.concurrent.ExecutorService;<br>import java.util.concurrent.Executors;<br>public class Main {<br>    public static void main(String[] args){<br>        ExecutorService executorService = Executors.newCachedThreadPool();//创建一个缓冲线程池<br>//      ExecutorService executorService = Executors.newFixedThreadPool(5);<br>//      ExecutorService executorService = Executors.newSingleThreadExecutor();<br>        for (int i = 0; i &lt; 5; i++){<br>            executorService.execute(new TestRunnable());//接受一个Runable实例，用来执行一个任务，任务即一个实现了Runnable接口的类。<br>            System.out.println(“<strong><strong><strong>*</strong></strong></strong> a” + i + “ <strong><strong><strong>*</strong></strong></strong>“);<br>        }<br>        executorService.shutdown();//将线程池关闭<br>    }<br>}<br>class TestRunnable implements Runnable{<br>    public void run(){<br>        System.out.println(Thread.currentThread().getName() + “线程被调用了。”);<br>    }<br>}<br>‘’’</p>
-<p>运行结果如下</p>
+<h2 id="实现Runnable接口的Cache线程池"><a href="#实现Runnable接口的Cache线程池" class="headerlink" title="实现Runnable接口的Cache线程池"></a>实现Runnable接口的Cache线程池</h2><p><strong>Executor执行Runnable任务</strong></p>
+<pre><code>import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+public class Main {
+public static void main(String[] args){
+    ExecutorService executorService = Executors.newCachedThreadPool();//创建一个缓冲线程池
+//      ExecutorService executorService = Executors.newFixedThreadPool(5);
+//      ExecutorService executorService = Executors.newSingleThreadExecutor();
+    for (int i = 0; i &lt; 5; i++){
+        executorService.execute(new TestRunnable());//接受一个Runable实例，用来执行一个任务，任务即一个实现了Runnable接口的类。
+        System.out.println(&quot;************* a&quot; + i + &quot; *************&quot;);
+    }
+    executorService.shutdown();//将线程池关闭
+}
+}
+class TestRunnable implements Runnable{
+public void run(){
+    System.out.println(Thread.currentThread().getName() + &quot;线程被调用了。&quot;);
+}
+}
+</code></pre><p>运行结果如下</p>
 <blockquote>
 <p><strong><strong><strong>*</strong></strong></strong> a0 <strong><strong><strong>*</strong></strong></strong><br>pool-1-thread-1线程被调用了。<br><strong><strong><strong>*</strong></strong></strong> a1 <strong><strong><strong>*</strong></strong></strong><br><strong><strong><strong>*</strong></strong></strong> a2 <strong><strong><strong>*</strong></strong></strong><br><strong><strong><strong>*</strong></strong></strong> a3 <strong><strong><strong>*</strong></strong></strong><br>pool-1-thread-1线程被调用了。<br>pool-1-thread-3线程被调用了。<br><strong><strong><strong>*</strong></strong></strong> a4 <strong><strong><strong>*</strong></strong></strong><br>pool-1-thread-2线程被调用了。<br>pool-1-thread-4线程被调用了。</p>
 </blockquote>
 <p><em>我们从结果可以看出，CachedThreadPool在创建新线程前会检查线程池中有没有闲置的线程，如果有就调用，没有就新建线程</em></p>
 <hr>
-<h2 id="实现Callable的线程池"><a href="#实现Callable的线程池" class="headerlink" title="实现Callable的线程池"></a>实现Callable的线程池</h2><p><strong>Executor执行Callable任务</strong><br>‘’’Java<br>import java.util.ArrayList;<br>import java.util.List;<br>import java.util.concurrent.*;</p>
-<p>public class CallableDemo{<br>    public static void main(String[] args){<br>        ExecutorService executorService = Executors.newCachedThreadPool();<br>        List&lt;Future<string>&gt; resultList = new ArrayList&lt;Future<string>&gt;();</string></string></p>
-<pre><code>    //创建10个任务并执行 
+<h2 id="实现Callable的线程池"><a href="#实现Callable的线程池" class="headerlink" title="实现Callable的线程池"></a>实现Callable的线程池</h2><p><strong>Executor执行Callable任务</strong><br>‘’’Java<br>    import java.util.ArrayList;<br>    import java.util.List;<br>    import java.util.concurrent.*;</p>
+<pre><code>public class CallableDemo{
+public static void main(String[] args){
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    List&lt;Future&lt;String&gt;&gt; resultList = new ArrayList&lt;Future&lt;String&gt;&gt;();
+
+    //创建10个任务并执行 
     for (int i = 0; i &lt; 10; i++){
         //使用ExecutorService执行Callable类型的任务，并将结果保存在future变量中 
         Future&lt;String&gt; future = executorService.submit(new TaskWithResult(i));
@@ -438,9 +469,12 @@ public void run() {
         }
     }
 }
-</code></pre><p>}</p>
-<p>class TaskWithResult implements Callable<string>{<br>    private int id;</string></p>
-<pre><code>public TaskWithResult(int id){
+}
+
+class TaskWithResult implements Callable&lt;String&gt;{
+private int id;
+
+public TaskWithResult(int id){
     this.id = id;
 }
 
@@ -453,15 +487,58 @@ public String call() throws Exception {
     //该返回结果将被Future的get方法得到
     return &quot;call()方法被自动调用，任务返回的结果是：&quot; + id + &quot;    &quot; + Thread.currentThread().getName();
 }
-</code></pre><p>}<br>‘’’<br>运行结果如下：</p>
+}
+</code></pre><p>运行结果如下：</p>
 <blockquote>
 <p>call()方法被自动调用！！！    pool-1-thread-1<br>call()方法被自动调用，任务返回的结果是：0    pool-1-thread-1<br>call()方法被自动调用！！！    pool-1-thread-2<br>call()方法被自动调用！！！    pool-1-thread-3<br>call()方法被自动调用！！！    pool-1-thread-4<br>call()方法被自动调用，任务返回的结果是：1    pool-1-thread-2<br>call()方法被自动调用！！！    pool-1-thread-5<br>call()方法被自动调用，任务返回的结果是：2    pool-1-thread-3<br>call()方法被自动调用，任务返回的结果是：3    pool-1-thread-4<br>call()方法被自动调用，任务返回的结果是：4    pool-1-thread-5<br>call()方法被自动调用！！！    pool-1-thread-6<br>call()方法被自动调用，任务返回的结果是：5    pool-1-thread-6<br>call()方法被自动调用！！！    pool-1-thread-7<br>call()方法被自动调用，任务返回的结果是：6    pool-1-thread-7<br>call()方法被自动调用！！！    pool-1-thread-8<br>call()方法被自动调用！！！    pool-1-thread-9<br>call()方法被自动调用，任务返回的结果是：7    pool-1-thread-8<br>call()方法被自动调用，任务返回的结果是：8    pool-1-thread-9<br>call()方法被自动调用！！！    pool-1-thread-10<br>call()方法被自动调用，任务返回的结果是：9    pool-1-thread-10</p>
 </blockquote>
 <p><em>从结果中可以同样可以看出，submit也是首先选择空闲线程来执行任务，如果没有，才会创建新的线程来执行任务。另外，需要注意：如果Future的返回尚未完成，则get（）方法会阻塞等待，直到Future完成返回，可以通过调用isDone（）方法判断Future是否完成了返回。</em></p>
 <hr>
-<h2 id="自定义线程池"><a href="#自定义线程池" class="headerlink" title="自定义线程池"></a>自定义线程池</h2><p>自定义线程池，可以用ThreadPoolExecutor类创建，它有多个构造方法来创建线程池，用该类很容易实现自定义的线程池，这里先贴上示例程序：<br>‘’’Java<br>import java.util.concurrent.ArrayBlockingQueue;<br>import java.util.concurrent.BlockingQueue;<br>import java.util.concurrent.ThreadPoolExecutor;<br>import java.util.concurrent.TimeUnit; </p>
-<p>public class ThreadPoolTest{<br>    public static void main(String[] args){<br>        //创建等待队列<br>        BlockingQueue<runnable> bqueue = new ArrayBlockingQueue<runnable>(20);<br>        //创建线程池，池中保存的线程数为3，允许的最大线程数为5<br>        ThreadPoolExecutor pool = new ThreadPoolExecutor(3,5,50,TimeUnit.MILLISECONDS,bqueue);<br>        //创建七个任务<br>        Runnable t1 = new MyThread();<br>        Runnable t2 = new MyThread();<br>        Runnable t3 = new MyThread();<br>        Runnable t4 = new MyThread();<br>        Runnable t5 = new MyThread();<br>        Runnable t6 = new MyThread();<br>        Runnable t7 = new MyThread();<br>        //每个任务会在一个线程上执行<br>        pool.execute(t1);<br>        pool.execute(t2);<br>        pool.execute(t3);<br>        pool.execute(t4);<br>        pool.execute(t5);<br>        pool.execute(t6);<br>        pool.execute(t7);<br>        //关闭线程池<br>        pool.shutdown();<br>    }<br>} </runnable></runnable></p>
-<p>class MyThread implements Runnable{<br>    @Override<br>    public void run(){<br>        System.out.println(Thread.currentThread().getName() + “正在执行。。。”);<br>        try{<br>            Thread.sleep(100);<br>        }catch(InterruptedException e){<br>            e.printStackTrace();<br>        }<br>    }<br>}<br>‘’’<br>运行结果如下：</p>
+<h2 id="自定义线程池"><a href="#自定义线程池" class="headerlink" title="自定义线程池"></a>自定义线程池</h2><p>自定义线程池，可以用ThreadPoolExecutor类创建，它有多个构造方法来创建线程池，用该类很容易实现自定义的线程池，这里先贴上示例程序：</p>
+<pre><code>import java.util.concurrent.ArrayBlockingQueue; 
+import java.util.concurrent.BlockingQueue; 
+import java.util.concurrent.ThreadPoolExecutor; 
+import java.util.concurrent.TimeUnit; 
+
+public class ThreadPoolTest{ 
+public static void main(String[] args){ 
+    //创建等待队列 
+    BlockingQueue&lt;Runnable&gt; bqueue = new ArrayBlockingQueue&lt;Runnable&gt;(20); 
+    //创建线程池，池中保存的线程数为3，允许的最大线程数为5
+    ThreadPoolExecutor pool = new ThreadPoolExecutor(3,5,50,TimeUnit.MILLISECONDS,bqueue); 
+    //创建七个任务 
+    Runnable t1 = new MyThread(); 
+    Runnable t2 = new MyThread(); 
+    Runnable t3 = new MyThread(); 
+    Runnable t4 = new MyThread(); 
+    Runnable t5 = new MyThread(); 
+    Runnable t6 = new MyThread(); 
+    Runnable t7 = new MyThread(); 
+    //每个任务会在一个线程上执行
+    pool.execute(t1); 
+    pool.execute(t2); 
+    pool.execute(t3); 
+    pool.execute(t4); 
+    pool.execute(t5); 
+    pool.execute(t6); 
+    pool.execute(t7); 
+    //关闭线程池 
+    pool.shutdown(); 
+} 
+} 
+
+class MyThread implements Runnable{ 
+@Override
+public void run(){ 
+    System.out.println(Thread.currentThread().getName() + &quot;正在执行。。。&quot;); 
+    try{ 
+        Thread.sleep(100); 
+    }catch(InterruptedException e){ 
+        e.printStackTrace(); 
+    } 
+} 
+}
+</code></pre><p>运行结果如下：</p>
 <blockquote>
 <p>pool-1-thread-2正在执行。。。<br>pool-1-thread-3正在执行。。。<br>pool-1-thread-1正在执行。。。<br>pool-1-thread-1正在执行。。。<br>pool-1-thread-3正在执行。。。<br>pool-1-thread-2正在执行。。。<br>pool-1-thread-2正在执行。。。</p>
 </blockquote>
@@ -479,9 +556,21 @@ public String call() throws Exception {
 <p>总结起来，也即是说，当有新的任务要处理时，先看线程池中的线程数量是否大于corePoolSize，再看缓冲队列workQueue是否满，最后看线程池中的线程数量是否大于maximumPoolSize。</p>
 <p>另外，当线程池中的线程数量大于corePoolSize时，如果里面有线程的空闲时间超过了keepAliveTime，就将其移除线程池，这样，可以动态地调整线程池中线程的数量。*</p>
 <blockquote>
-<p>学习笔记<br>我们大致来看下Executors的源码，newCachedThreadPool的不带RejectedExecutionHandler参数（即第五个参数，线程数量超过maximumPoolSize时，指定处理方式）的构造方法如下：<br>‘’’Java<br>public static ExecutorService newCachedThreadPool() {<br>    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,<br>                                  60L, TimeUnit.SECONDS,<br>                                  new SynchronousQueue<runnable>());<br>}<br>‘’’<br>它将corePoolSize设定为0，而将maximumPoolSize设定为了Integer的最大值，线程空闲超过60秒，将会从线程池中移除。由于核心线程数为0，因此每次添加任务，都会先从线程池中找空闲线程，如果没有就会创建一个线程（SynchronousQueue<runnalbe>决定的，后面会说）来执行新的任务，并将该线程加入到线程池中，而最大允许的线程数为Integer的最大值，因此这个线程池理论上可以不断扩大。</runnalbe></runnable></p>
+<p>学习笔记<br>我们大致来看下Executors的源码，newCachedThreadPool的不带RejectedExecutionHandler参数（即第五个参数，线程数量超过maximumPoolSize时，指定处理方式）的构造方法如下：</p>
 </blockquote>
-<p>再来看newFixedThreadPool的不带RejectedExecutionHandler参数的构造方法，如下：<br>‘’’Java<br>public static ExecutorService newFixedThreadPool(int nThreads) {<br>    return new ThreadPoolExecutor(nThreads, nThreads,<br>                                  0L, TimeUnit.MILLISECONDS,<br>                                  new LinkedBlockingQueue<runnable>());<br>}<br>‘’’<br>它将corePoolSize和maximumPoolSize都设定为了nThreads，这样便实现了线程池的大小的固定，不会动态地扩大，另外，keepAliveTime设定为了0，也就是说线程只要空闲下来，就会被移除线程池，敢于LinkedBlockingQueue下面会说。</runnable></p>
+<pre><code>public static ExecutorService newCachedThreadPool() {
+return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                              60L, TimeUnit.SECONDS,
+                              new SynchronousQueue&lt;Runnable&gt;());
+}
+</code></pre><p>它将corePoolSize设定为0，而将maximumPoolSize设定为了Integer的最大值，线程空闲超过60秒，将会从线程池中移除。由于核心线程数为0，因此每次添加任务，都会先从线程池中找空闲线程，如果没有就会创建一个线程（SynchronousQueue<runnalbe>决定的，后面会说）来执行新的任务，并将该线程加入到线程池中，而最大允许的线程数为Integer的最大值，因此这个线程池理论上可以不断扩大。</runnalbe></p>
+<p>再来看newFixedThreadPool的不带RejectedExecutionHandler参数的构造方法，如下：</p>
+<pre><code>public static ExecutorService newFixedThreadPool(int nThreads) {
+return new ThreadPoolExecutor(nThreads, nThreads,
+                              0L, TimeUnit.MILLISECONDS,
+                              new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+</code></pre><p>它将corePoolSize和maximumPoolSize都设定为了nThreads，这样便实现了线程池的大小的固定，不会动态地扩大，另外，keepAliveTime设定为了0，也就是说线程只要空闲下来，就会被移除线程池，敢于LinkedBlockingQueue下面会说。</p>
 <p>下面说说几种排队的策略：</p>
 <p>1、直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。</p>
 <p>2、无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。</p>
